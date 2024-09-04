@@ -1,0 +1,86 @@
+﻿@{
+    ViewBag.Title = "Main";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+}
+
+@section Container {
+    <section class="container" id="container">
+        <div class="fixed_in type2 main">
+            <div class="main-section">
+                <div class="fixed_in__area">
+                    <div class="area-left">
+                        <div class="area__flex">
+                            <div class="left-logo">
+                                <img src="~/Images/visual_logo.png" />
+                            </div>
+                            <div class="left-title">
+                                Start<br />
+                                Your Business<br />
+                                with <strong>Fairconline</strong>
+                            </div>
+                        </div>
+                        <div class="left-search">
+                            <div class="int_box search-form">
+                                <input type="text" class="search-form__input" placeholder="HB/L NO, CNTR NO" id="mng_no" maxlength="20"/>
+                                <button type="button" class="btns icon delete" style="display: none; right:130px;"><span class="blind">삭제</span></button>
+                                <button class="search-form__button" id="SearchTracking">search</button>
+                            </div>
+                        </div>
+                    </div>
+                    @{
+                        if (Session["USR_ID"] == null)
+                        {
+                            <div class="area-right">
+                                <div class="right-menu">
+                                    <div class="menu-area">
+                                        <a class="__menu" onclick="fnShowLoginLayer('/MyData')">
+                                            <img src="~/Images/menu1.png" /><span>MY DATA</span>
+                                        </a>
+                                        <a class="__menu" onclick="fnShowLoginLayer('/Booking/Regist')">
+                                            <img src="~/Images/menu3.png" /><span>BOOKING</span>
+                                        </a>
+                                    </div>
+                                    <div class="menu-area">
+                                        <a class="__menu" href="@Url.Action("Index", "Schedule")">
+                                            <img src="~/Images/menu2.png" /><span>SCHEDULE</span>
+                                        </a>
+                                        <a class="__menu" onclick="fnShowLoginLayer('/Warehouse')">
+                                            <img src="~/Images/menu4.png" /><span>WAREHOUSE</span>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="area-right">
+                                <div class="right-menu">
+                                    <div class="menu-area">
+                                        <a class="__menu" href="@Url.Action("Index", "MyData")">
+                                            <img src="~/Images/menu1.png" /><span>MY DATA</span>
+                                        </a>
+                                        <a class="__menu" href="@Url.Action("Regist", "Booking")">
+                                            <img src="~/Images/menu3.png" /><span>BOOKING</span>
+                                        </a>
+                                    </div>
+                                    <div class="menu-area">
+                                        <a class="__menu" href="@Url.Action("Index", "Schedule")">
+                                            <img src="~/Images/menu2.png" /><span>SCHEDULE</span>
+                                        </a>
+                                        <a class="__menu" href="@Url.Action("Index", "Warehouse")">
+                                            <img src="~/Images/menu4.png" /><span>WAREHOUSE</span>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    }
+
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- //tab_panel -->
+    <!-- //container -->
+
+}

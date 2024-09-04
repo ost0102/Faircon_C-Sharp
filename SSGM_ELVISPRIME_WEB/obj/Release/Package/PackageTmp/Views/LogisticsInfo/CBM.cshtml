@@ -1,0 +1,1025 @@
+﻿@{
+    ViewBag.Title = "LogisticsTools";
+    ViewBag.Sub = "CBM";
+
+    Layout = "~/Views/Shared/_SubLayout.cshtml";
+}
+
+@section Container {
+
+    <script>
+        $('.lnb > li:nth-child(4)').addClass('on');
+        $('.lnb > li.on .sub_depth li:nth-child(2) a').addClass('on');
+    </script>
+
+    <div class="container">
+        <div class="sub_visual" id="Schedule">
+            <div class="inner">
+                <h4 class="subtitle">
+                    <span>
+                        Start Your Business<br />
+                        with <strong>FairConline</strong>
+                    </span>
+                </h4>
+            </div>
+        </div>
+        <div class="fixed_in type2 logistics">
+            <h2 class="logistics_title">CBM CALCULATOR</h2>
+            <div class="cbm_area">
+                <div class="logistics_content">
+                    <div class="search_area">
+                        <div class="sub_flex subone">
+                            <div class="int_box one">
+                                <input type="text" id="cbm_length" value="" name="" class="int wgt" placeholder="가로" data-index="LogisticsCBM1" tabindex="1">
+                                <button type="button" class="btns icon delete"><span class="blind">삭제</span></button>
+                            </div>
+                            <div class="int_box one">
+                                <input type="text" id="cbm_width" value="" name="" class="int wgt" placeholder="세로" data-index="LogisticsCBM2" tabindex="1">
+                                <button type="button" class="btns icon delete"><span class="blind">삭제</span></button>
+                            </div>
+                            <div class="int_box one">
+                                <input type="text" id="cbm_height" value="" name="" class="int wgt" placeholder="높이" data-index="LogisticsCBM3" tabindex="1">
+                                <button type="button" class="btns icon delete"><span class="blind">삭제</span></button>
+                            </div>
+                            <div class="int_box">
+                                <select id="CBM_UNIT">
+                                    <option value="" selected="">단위</option>
+                                    <option value="MM">mm</option>
+                                    <option value="CM">cm</option>
+                                    <option value="M">m</option>
+                                    <option value="INCH">inch</option>
+                                </select>
+                            </div>
+                            <div class="int_box one">
+                                <input type="text" placeholder="무게" class="int wgt" id="cbm_grs_wgt" data-index="LogisticsCBM4">
+                                <button type="button" class="btns icon delete"><span class="blind">삭제</span></button>
+                            </div>
+                        </div>
+                        <div class="btn_area">
+                            <button type="button" class="btn_clear" id="btn_clear_cbm">초기화</button>
+                            <button type="button" class="btn_calc" id="btn_calc_cbm">계산</button>
+                        </div>
+                    </div>
+                    <div class="result_area" id="result_cbm" style="display:none;">
+                        <div class="result_list" id="result_List">
+                            <div class="slimScrollDiv" style="position: relative;  width: 100%; height: 450px; overflow-x:hidden;">
+                                <div class="scrollbar_cbm" width: 100%; height: 450px;">
+
+                                </div><div class="slimScrollBar" style="background: rgb(0, 0, 0); width: 7px; position: absolute; top: 0px; opacity: 0.4; display: block; border-radius: 7px; z-index: 99; right: 1px;"></div>
+                            </div>
+                        </div>
+                        <div class="result_sum">
+                            <div class="sum_inner">
+                                <h5 class="sum_title">결과 총합</h5>
+                                <p>※ 실제와 다를 수 있으니 참고용으로 사용해 주세요.</p>
+                                <div class="sum_detail">
+                                    <table>
+                                        <tbody>
+                                            <tr>
+                                                <th>V/WT(kg)</th>
+                                                <td><span id="tot_vWgt"></span> kg</td>
+                                            </tr>
+                                            <tr>
+                                                <th>C/WT(kg)</th>
+                                                <td><span id="tot_cWgt"></span> kg</td>
+                                            </tr>
+                                            <tr>
+                                                <th>CBM</th>
+                                                <td><span id="tot_cbm"></span> CBM</td>
+                                            </tr>
+                                            <tr>
+                                                <th>R/T(운임톤)</th>
+                                                <td><span id="tot_rton"></span> CBM</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <h2 class="logistics_title containers">컨테이너 정보</h2>
+            <div class="containers_info">
+                <div class="cntr_status sea on">
+                    <div class="sea_air_list pc">
+                        해상용 컨테이너
+                        <div class="img_btn">
+                            <img src="~/Images/icn_plus.png" id="show_ship" style="display:none;" />
+                            <img src="~/Images/icn_minus.png" id="hide_ship" />
+                        </div>
+                    </div>
+                    <div class="sea_air_list mo">
+                        해상용 <br />컨테이너
+                        <div class="img_btn">
+                            <img src="~/Images/icn_plus.png" id="show_ship_mo" style="display:none;" />
+                            <img src="~/Images/icn_minus.png" id="hide_ship_mo" />
+                        </div>
+                    </div>
+                </div>
+                <div class="cntr_status air off">
+                    <div class="sea_air_list pc">
+                        항공용 컨테이너
+                        <div class="img_btn">
+                            <img src="~/Images/icn_minus.png" id="hide_air" style="display:none;" />
+                            <img src="~/Images/icn_plus.png" id="show_air" />
+                        </div>
+                    </div>
+                    <div class="sea_air_list mo">
+                        항공용<br /> 컨테이너
+                        <div class="img_btn">
+                            <img src="~/Images/icn_minus.png" id="hide_air_mo" style="display:none;" />
+                            <img src="~/Images/icn_plus.png" id="show_air_mo" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="cntr_value_area">
+                <div class="cntr_value_box">
+                    <div class="cntr_ship">
+                        <div class="cntr_value_title">컨테이너 종류별 특징</div>
+                        <div class="cntr_value_list_box ship_box">
+                            <div class="cntr_value_list">
+                                <div class="cntr_list">
+                                    <div class="ship_cntr_ex">
+                                        <p class="ship_cntr_title">드라이 컨테이너(Dry Container)</p>
+                                        <p class="ship_cntr_sub">일반화물의 수송에 사용하는 전형적인 일반 컨테이너</p>
+                                    </div>
+                                    <div class="list_con">
+                                        <div class="ship_cntr_img_area">
+                                            <div class="ship_main_img">
+                                                <img src="~/Images/ship_cntr1.png" />
+                                            </div>
+                                            <div class="ship_sub_img">
+                                                <div class="top_ship_sub_img">
+                                                    <img src="~/Images/ship_cntr_sub1.png" />
+                                                    <img src="~/Images/ship_cntr_sub2.png" />
+                                                </div>
+                                                <div class="bottom_ship_sub_img">
+                                                    <img src="~/Images/ship_cntr_sub3.png" />
+                                                    <img src="~/Images/ship_cntr_sub4.png" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="cntr_info_box">
+                                            <p class="cntr_info_box_title">[컨테이너별 사이즈 정보]</p>
+                                            <p class="cntr_info_box_warn">※ 선사마다 최대 적재 중량이 다를 수 있으니 참고바랍니다. ※</p>
+                                            <table class="tbl_cntr_detail">
+                                                <thead>
+                                                    <tr>
+                                                        <th colspan="2">구분</th>
+                                                        <th>20FT</th>
+                                                        <th>40FT</th>
+                                                        <th>40FT(HC)</th>
+                                                        <th>45FT(HC)</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <td rowspan="3">Internal<br>(내측)</td>
+                                                        <td>L</td>
+                                                        <td>5.89m</td>
+                                                        <td>12.03m</td>
+                                                        <td>12.03m</td>
+                                                        <td>13.55m</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>W</td>
+                                                        <td>2.35m</td>
+                                                        <td>2.35m</td>
+                                                        <td>2.35m</td>
+                                                        <td>2.35m</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>H</td>
+                                                        <td>2.39m</td>
+                                                        <td>2.39m</td>
+                                                        <td>2.69m</td>
+                                                        <td>2.69m</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td rowspan="2">Door Opening<br>(개구부)</td>
+                                                        <td>W</td>
+                                                        <td>2.34m</td>
+                                                        <td>2.34m</td>
+                                                        <td>2.34m</td>
+                                                        <td>2.34m</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>H</td>
+                                                        <td>2.28m</td>
+                                                        <td>2.28m</td>
+                                                        <td>2.58m</td>
+                                                        <td>2.58m</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td colspan="2">내부용적</td>
+                                                        <td>33.2cbm</td>
+                                                        <td>67.8cbm</td>
+                                                        <td>76.4cbm</td>
+                                                        <td>86.0cbm</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td colspan="2">Tare Weight</td>
+                                                        <td>2,250kg</td>
+                                                        <td>3,740kg</td>
+                                                        <td>3,940kg</td>
+                                                        <td>4,720kg</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td colspan="2">Maximum Payload<br>(최대적재중량)</td>
+                                                        <td>21,750kg</td>
+                                                        <td>26,740kg</td>
+                                                        <td>26,540kg</td>
+                                                        <td>25,760kg</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td colspan="2">총중량</td>
+                                                        <td>24,000kg</td>
+                                                        <td>30,480kg</td>
+                                                        <td>30,480kg</td>
+                                                        <td>30,480kg</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="cntr_value_list_box ship_box">
+                            <div class="cntr_value_list">
+                                <div class="cntr_list">
+                                    <div class="ship_cntr_ex">
+                                        <p class="ship_cntr_title">냉동 컨테이너(Reefer Container)</p>
+                                        <p class="ship_cntr_sub">온도조절을 요하는 화물의 운송용으로 냉동, 냉장을 할 수 있는 컨테이너</p>
+                                    </div>
+                                    <div class="list_con">
+                                        <div class="ship_cntr_img_area">
+                                            <div class="ship_main_img">
+                                                <img src="~/Images/ship_cntr2.png" />
+                                            </div>
+                                            <div class="ship_sub_img">
+                                                <div class="top_ship_sub_img">
+                                                    <img src="~/Images/ship_cntr_sub5.png" />
+                                                    <img src="~/Images/ship_cntr_sub6.png" />
+                                                </div>
+                                                <div class="bottom_ship_sub_img">
+                                                    <img src="~/Images/ship_cntr_sub7.png" />
+                                                    <img src="~/Images/ship_cntr_sub8.png" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="cntr_info_box">
+                                            <p class="cntr_info_box_title">[컨테이너별 사이즈 정보]</p>
+                                            <p class="cntr_info_box_warn">※ 선사마다 최대 적재 중량이 다를 수 있으니 참고바랍니다. ※</p>
+                                            <table class="tbl_cntr_detail">
+                                                <thead>
+                                                    <tr>
+                                                        <th colspan="2">구분</th>
+                                                        <th>20FT</th>
+                                                        <th>40FT</th>
+                                                        <th>40FT(H)</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <td rowspan="3">Internal<br>(내측)</td>
+                                                        <td>L</td>
+                                                        <td>5.45m</td>
+                                                        <td>11.58m</td>
+                                                        <td>11.58m</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>W</td>
+                                                        <td>2.28m</td>
+                                                        <td>2.28m</td>
+                                                        <td>2.29m</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>H</td>
+                                                        <td>2.24m</td>
+                                                        <td>2.21m</td>
+                                                        <td>2.54m</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td rowspan="2">Door Opening<br>(개구부)</td>
+                                                        <td>W</td>
+                                                        <td>2.28m</td>
+                                                        <td>2.29m</td>
+                                                        <td>2.29m</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>H</td>
+                                                        <td>2.16m</td>
+                                                        <td>2.24m</td>
+                                                        <td>2.50m</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td colspan="2">내부용적</td>
+                                                        <td>28.5cbm</td>
+                                                        <td>58.7cbm</td>
+                                                        <td>67.4cbm</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td colspan="2">Tare Weight</td>
+                                                        <td>3,000kg</td>
+                                                        <td>4,700kg</td>
+                                                        <td>4,750kg</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td colspan="2">Maximum Payload<br>(최대적재중량)</td>
+                                                        <td>22,000kg</td>
+                                                        <td>25,780kg</td>
+                                                        <td>25,730kg</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td colspan="2">총중량</td>
+                                                        <td>25,000kg</td>
+                                                        <td>30,480kg</td>
+                                                        <td>30,480kg</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="cntr_value_list_box ship_box">
+                            <div class="cntr_value_list">
+                                <div class="cntr_list">
+                                    <div class="ship_cntr_ex">
+                                        <p class="ship_cntr_title">오픈 탑 컨테이너(Open Top Container)</p>
+                                        <p class="ship_cntr_sub">화물의 높이가 일반 컨테이너보다 높은 화물 운송용으로 윗면이 없는 컨테이너</p>
+                                    </div>
+                                    <div class="list_con">
+                                        <div class="ship_cntr_img_area">
+                                            <div class="ship_main_img">
+                                                <img src="~/Images/ship_cntr3.png" />
+                                            </div>
+                                            <div class="ship_sub_img">
+                                                <div class="top_ship_sub_img">
+                                                    <img src="~/Images/ship_cntr_sub9.png" />
+                                                    <img src="~/Images/ship_cntr_sub10.png" />
+                                                </div>
+                                                <div class="bottom_ship_sub_img">
+                                                    <img src="~/Images/ship_cntr_sub11.png" />
+                                                    <img src="~/Images/ship_cntr_sub12.png" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="cntr_info_box">
+                                            <p class="cntr_info_box_title">[컨테이너별 사이즈 정보]</p>
+                                            <p class="cntr_info_box_warn">※ 선사마다 최대 적재 중량이 다를 수 있으니 참고바랍니다. ※</p>
+                                            <table class="tbl_cntr_detail">
+                                                <thead>
+                                                    <tr>
+                                                        <th colspan="2">구분</th>
+                                                        <th>20FT</th>
+                                                        <th>40FT</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <td rowspan="3">Internal<br>(내측)</td>
+                                                        <td>L</td>
+                                                        <td>5.88m</td>
+                                                        <td>12.04m</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>W</td>
+                                                        <td>2.34m</td>
+                                                        <td>2.35m</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>H</td>
+                                                        <td>2.31m</td>
+                                                        <td>2.34m</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td rowspan="2">Door Opening<br>(개구부)</td>
+                                                        <td>W</td>
+                                                        <td>2.33m</td>
+                                                        <td>2.33m</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>H</td>
+                                                        <td>2.27m</td>
+                                                        <td>2.28m</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td colspan="2">내부용적</td>
+                                                        <td>31.8cbm</td>
+                                                        <td>66.3cbm</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td colspan="2">Tare Weight</td>
+                                                        <td>2,020kg</td>
+                                                        <td>3,980kg</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td colspan="2">Maximum Payload<br>(최대적재중량)</td>
+                                                        <td>21,980kg</td>
+                                                        <td>26,500kg</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td colspan="2">총중량</td>
+                                                        <td>24,000kg</td>
+                                                        <td>30,480kg</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="cntr_value_list_box ship_box">
+                            <div class="cntr_value_list">
+                                <div class="cntr_list">
+                                    <div class="ship_cntr_ex">
+                                        <p class="ship_cntr_title">플랫 랙 컨테이너(Flat Rack Container)</p>
+                                        <p class="ship_cntr_sub">일반 컨테이너 적재가 불가능한 대형 또는 중량 화물의 운송용으로 윗명과 옆면이 없는 컨테이너</p>
+                                    </div>
+                                    <div class="list_con">
+                                        <div class="ship_cntr_img_area">
+                                            <div class="ship_main_img">
+                                                <img src="~/Images/ship_cntr4.png" />
+                                            </div>
+                                            <div class="ship_sub_img">
+                                                <div class="top_ship_sub_img">
+                                                    <img src="~/Images/ship_cntr_sub13.png" />
+                                                    <img src="~/Images/ship_cntr_sub14.png" />
+                                                </div>
+                                                <div class="bottom_ship_sub_img">
+                                                    <img src="~/Images/ship_cntr_sub15.png" />
+                                                    <img src="~/Images/ship_cntr_sub16.png" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="cntr_info_box">
+                                            <p class="cntr_info_box_title">[컨테이너별 사이즈 정보]</p>
+                                            <p class="cntr_info_box_warn">※ 선사마다 최대 적재 중량이 다를 수 있으니 참고바랍니다. ※</p>
+                                            <table class="tbl_cntr_detail">
+                                                <thead>
+                                                    <tr>
+                                                        <th colspan="2">구분</th>
+                                                        <th>20FT</th>
+                                                        <th>40FT</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <td rowspan="3">Internal<br>(내측)</td>
+                                                        <td>L</td>
+                                                        <td>5.61m</td>
+                                                        <td>11.77m</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>W</td>
+                                                        <td>2.22m</td>
+                                                        <td>1.95m</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>H</td>
+                                                        <td>2.21m</td>
+                                                        <td>1.95m</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td rowspan="2">Door Opening<br>(개구부)</td>
+                                                        <td>W</td>
+                                                        <td>-</td>
+                                                        <td>-</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>H</td>
+                                                        <td>-</td>
+                                                        <td>-</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td colspan="2">내부용적</td>
+                                                        <td>-</td>
+                                                        <td>-</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td colspan="2">Tare Weight</td>
+                                                        <td>2,740kg</td>
+                                                        <td>5,600kg</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td colspan="2">Maximum Payload<br>(최대적재중량)</td>
+                                                        <td>31,260kg</td>
+                                                        <td>39,400kg</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td colspan="2">총중량</td>
+                                                        <td>34,000kg</td>
+                                                        <td>45,000kg</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="cntr_size_area">
+                            <div class="cntr_value_title">컨테이너 사이즈별 적입수</div>
+                            <div class="cntr_size_box">
+                                <table class="tbl_cntr_size pc">
+                                    <tr>
+                                        <td rowspan="2">20FT Dry 기준</td>
+                                        <td>1100mm * 1100mm : 10개</td>
+                                        <td>1000mm * 1200mm : 9개</td>
+                                        <td>800mm * 1200mm : 11개</td>
+                                        <td>1140mm * 1140mm : 10개</td>
+                                    </tr>
+                                    <tr>
+                                        <td><img src="~/Images/cntr_size1.png" /></td>
+                                        <td><img src="~/Images/cntr_size2.png" /></td>
+                                        <td><img src="~/Images/cntr_size3.png" /></td>
+                                        <td><img src="~/Images/cntr_size4.png" /></td>
+                                    </tr>
+                                    <tr>
+                                        <td rowspan="2">40FT Dry 기준</td>
+                                        <td>1100mm * 1100mm : 20개</td>
+                                        <td>1000mm * 1200mm : 22개</td>
+                                        <td>800mm * 1200mm : 25개</td>
+                                        <td>1140mm * 1140mm : 20개</td>
+                                    </tr>
+                                    <tr>
+                                        <td><img src="~/Images/cntr_size5.png" /></td>
+                                        <td><img src="~/Images/cntr_size6.png" /></td>
+                                        <td><img src="~/Images/cntr_size7.png" /></td>
+                                        <td><img src="~/Images/cntr_size8.png" /></td>
+                                    </tr>
+                                </table>
+                                <table class="tbl_cntr_size tablet">
+                                    <tr>
+                                        <td rowspan="4">20FT Dry 기준</td>
+                                        <td>1100mm * 1100mm : 10개</td>
+                                        <td>1000mm * 1200mm : 9개</td>
+                                    </tr>
+                                    <tr>
+                                        <td><img src="~/Images/cntr_size1.png" /></td>
+                                        <td><img src="~/Images/cntr_size2.png" /></td>
+                                    </tr>
+                                    <tr>
+                                        <td>800mm * 1200mm : 11개</td>
+                                        <td>1140mm * 1140mm : 10개</td>
+                                    </tr>
+                                    <tr>
+                                        <td><img src="~/Images/cntr_size3.png" /></td>
+                                        <td><img src="~/Images/cntr_size4.png" /></td>
+                                    </tr>
+                                    <tr>
+                                        <td rowspan="4">40FT Dry 기준</td>
+                                        <td>1100mm * 1100mm : 20개</td>
+                                        <td>1000mm * 1200mm : 22개</td>
+                                    </tr>
+                                    <tr>
+                                        <td><img src="~/Images/cntr_size5.png" /></td>
+                                        <td><img src="~/Images/cntr_size6.png" /></td>
+                                    </tr>
+                                    <tr>
+                                        <td>800mm * 1200mm : 25개</td>
+                                        <td>1140mm * 1140mm : 20개</td>
+                                    </tr>
+                                    <tr>
+                                        <td><img src="~/Images/cntr_size7.png" /></td>
+                                        <td><img src="~/Images/cntr_size8.png" /></td>
+                                    </tr>
+                                </table>
+                                <table class="tbl_cntr_size mo">
+                                    <tr>
+                                        <td rowspan="8">20FT Dry 기준</td>
+                                        <td>1100mm * 1100mm : 10개</td>
+                                    </tr>
+                                    <tr>
+                                        <td><img src="~/Images/cntr_size1.png" /></td>
+                                    </tr>
+                                    <tr>
+                                        <td>1000mm * 1200mm : 9개</td>
+                                    </tr>
+                                    <tr>
+                                        <td><img src="~/Images/cntr_size2.png" /></td>
+                                    </tr>
+                                    <tr>
+                                        <td>800mm * 1200mm : 11개</td>
+                                    </tr>
+                                    <tr>
+                                        <td><img src="~/Images/cntr_size3.png" /></td>
+                                    </tr>
+                                    <tr>
+                                        <td>1140mm * 1140mm : 10개</td>
+                                    </tr>
+                                    <tr>
+                                        <td><img src="~/Images/cntr_size4.png" /></td>
+                                    </tr>
+                                    <tr>
+                                        <td rowspan="8">40FT Dry 기준</td>
+                                        <td>1100mm * 1100mm : 20개</td>
+                                    </tr>
+                                    <tr>
+                                        <td><img src="~/Images/cntr_size5.png" /></td>
+                                    </tr>
+                                    <tr>
+                                        <td>1000mm * 1200mm : 22개</td>
+                                    </tr>
+                                    <tr>
+                                        <td><img src="~/Images/cntr_size6.png" /></td>
+                                    </tr>
+                                    <tr>
+                                        <td>800mm * 1200mm : 25개</td>
+                                    </tr>
+                                    <tr>
+                                        <td><img src="~/Images/cntr_size7.png" /></td>
+                                    </tr>
+                                    <tr>
+                                        <td>1140mm * 1140mm : 20개</td>
+                                    </tr>
+                                    <tr>
+                                        <td><img src="~/Images/cntr_size8.png" /></td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="cntr_air" style="display:none;">
+                        <div class="cntr_value_title">컨테이너 종류별 특징</div>
+                        <div class="cntr_value_list_box air_box">
+                            <div class="cntr_value_list">
+                                <div class="cntr_list">
+                                    <div class="list_con">
+                                        <img src="~/Images/air_cntr1.png" class="air_cntr_img" />
+                                        <div class="air_cntr_con">
+                                            <div class="cntr_con_tit">[항공용 컨테이너]</div>
+                                            <div class="cntr_con_sub_tit">ULD Type(IATA Code) : LD3 Garment Container(AKE)</div>
+                                            <div class="cntr_con_character">
+                                                <div class="character_list top_list">
+                                                    <div class="left_character">
+                                                        <div class="character_tit">Max Capacity (Tare Weight)</div>
+                                                        <div class="character_con">1,588kg (105kg)</div>
+                                                    </div>
+                                                    <div class="right_character">
+                                                        <div class="character_tit">Dimention (inch)</div>
+                                                        <div class="character_con">60.4 x 61.5 x 64</div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="cntr_con_character">
+                                                <div class="character_list top_list">
+                                                    <div class="left_character">
+                                                        <div class="character_tit">Utility</div>
+                                                        <div class="character_con">General Cargo Garment</div>
+                                                    </div>
+                                                    <div class="right_character">
+                                                        <div class="character_tit">Loading Possible Aircraft Type</div>
+                                                        <div class="character_con">B747, A300, A330, B777</div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="cntr_value_list_box air_box">
+                            <div class="cntr_value_list">
+                                <div class="cntr_list">
+                                    <div class="list_con">
+                                        <img src="~/Images/air_cntr2.png" class="air_cntr_img" />
+                                        <div class="air_cntr_con">
+                                            <div class="cntr_con_tit">[항공용 컨테이너]</div>
+                                            <div class="cntr_con_sub_tit">ULD Type(IATA Code) : LD3 Refrigerated Container(RKE)</div>
+                                            <div class="cntr_con_character">
+                                                <div class="character_list top_list">
+                                                    <div class="left_character">
+                                                        <div class="character_tit">Max Capacity (Tare Weight)</div>
+                                                        <div class="character_con">1,588kg (270kg)</div>
+                                                    </div>
+                                                    <div class="right_character">
+                                                        <div class="character_tit">Dimention (inch)</div>
+                                                        <div class="character_con">60.4 x 61.5 x 64</div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="cntr_con_character">
+                                                <div class="character_list top_list">
+                                                    <div class="left_character">
+                                                        <div class="character_tit">Utility</div>
+                                                        <div class="character_con">Perishable CGO Freeze Cargo</div>
+                                                    </div>
+                                                    <div class="right_character">
+                                                        <div class="character_tit">Loading Possible Aircraft Type</div>
+                                                        <div class="character_con">B747, A300, A330, B777</div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="cntr_value_list_box air_box">
+                            <div class="cntr_value_list">
+                                <div class="cntr_list">
+                                    <div class="list_con">
+                                        <img src="~/Images/air_cntr3.png" class="air_cntr_img" />
+                                        <div class="air_cntr_con">
+                                            <div class="cntr_con_tit">[항공용 컨테이너]</div>
+                                            <div class="cntr_con_sub_tit">ULD Type(IATA Code) : LD3 Refrigerated Container(RKN)</div>
+                                            <div class="cntr_con_character">
+                                                <div class="character_list top_list">
+                                                    <div class="left_character">
+                                                        <div class="character_tit">Max Capacity (Tare Weight)</div>
+                                                        <div class="character_con">1,588kg (260kg)</div>
+                                                    </div>
+                                                    <div class="right_character">
+                                                        <div class="character_tit">Dimention (inch)</div>
+                                                        <div class="character_con">60.4 x 61.5 x 64</div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="cntr_con_character">
+                                                <div class="character_list top_list">
+                                                    <div class="left_character">
+                                                        <div class="character_tit">Utility</div>
+                                                        <div class="character_con">
+                                                            Perishable CGO Freeze Cargo- Equipped with<br />
+                                                            Automated Temperature System
+                                                        </div>
+                                                    </div>
+                                                    <div class="right_character">
+                                                        <div class="character_tit">Loading Possible Aircraft Type</div>
+                                                        <div class="character_con">B747, A300, A330, B777</div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="cntr_value_list_box air_box">
+                            <div class="cntr_value_list">
+                                <div class="cntr_list">
+                                    <div class="list_con">
+                                        <img src="~/Images/air_cntr4.png" class="air_cntr_img" />
+                                        <div class="air_cntr_con">
+                                            <div class="cntr_con_tit">[항공용 컨테이너]</div>
+                                            <div class="cntr_con_sub_tit">ULD Type(IATA Code) : LD6 Container(ALF)</div>
+                                            <div class="cntr_con_character">
+                                                <div class="character_list top_list">
+                                                    <div class="left_character">
+                                                        <div class="character_tit">Max Capacity (Tare Weight)</div>
+                                                        <div class="character_con">3,175kg (175kg)</div>
+                                                    </div>
+                                                    <div class="right_character">
+                                                        <div class="character_tit">Dimention (inch)</div>
+                                                        <div class="character_con">60.4 x 125 x 64</div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="cntr_con_character">
+                                                <div class="character_list top_list">
+                                                    <div class="left_character">
+                                                        <div class="character_tit">Utility</div>
+                                                        <div class="character_con">General Cargo</div>
+                                                    </div>
+                                                    <div class="right_character">
+                                                        <div class="character_tit">Loading Possible Aircraft Type</div>
+                                                        <div class="character_con">B747, A300, A330, B777</div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="cntr_value_list_box air_box">
+                            <div class="cntr_value_list">
+                                <div class="cntr_list">
+                                    <div class="list_con">
+                                        <img src="~/Images/air_cntr5.png" class="air_cntr_img" />
+                                        <div class="air_cntr_con">
+                                            <div class="cntr_con_tit">[항공용 컨테이너]</div>
+                                            <div class="cntr_con_sub_tit">ULD Type(IATA Code) : LD9 Container(AAP)</div>
+                                            <div class="cntr_con_character">
+                                                <div class="character_list top_list">
+                                                    <div class="left_character">
+                                                        <div class="character_tit">Max Capacity (Tare Weight)</div>
+                                                        <div class="character_con">6,033kg (270kg)</div>
+                                                    </div>
+                                                    <div class="right_character">
+                                                        <div class="character_tit">Dimention (inch)</div>
+                                                        <div class="character_con">88 x 125 x 64</div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="cntr_con_character">
+                                                <div class="character_list top_list">
+                                                    <div class="left_character">
+                                                        <div class="character_tit">Utility</div>
+                                                        <div class="character_con">General Cargo</div>
+                                                    </div>
+                                                    <div class="right_character">
+                                                        <div class="character_tit">Loading Possible Aircraft Type</div>
+                                                        <div class="character_con">B747, A300, A330, B777</div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="cntr_value_list_box air_box">
+                            <div class="cntr_value_list">
+                                <div class="cntr_list">
+                                    <div class="list_con">
+                                        <img src="~/Images/air_cntr6.png" class="air_cntr_img" />
+                                        <div class="air_cntr_con">
+                                            <div class="cntr_con_tit">[항공용 컨테이너]</div>
+                                            <div class="cntr_con_sub_tit">ULD Type(IATA Code) : LD9 Refrigerated Container(RAP)</div>
+                                            <div class="cntr_con_character">
+                                                <div class="character_list top_list">
+                                                    <div class="left_character">
+                                                        <div class="character_tit">Max Capacity (Tare Weight)</div>
+                                                        <div class="character_con">6,033kg (527kg)</div>
+                                                    </div>
+                                                    <div class="right_character">
+                                                        <div class="character_tit">Dimention (inch)</div>
+                                                        <div class="character_con">88 x 125 x 64</div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="cntr_con_character">
+                                                <div class="character_list top_list">
+                                                    <div class="left_character">
+                                                        <div class="character_tit">Utility</div>
+                                                        <div class="character_con">Perishable CGO Freeze Cargo</div>
+                                                    </div>
+                                                    <div class="right_character">
+                                                        <div class="character_tit">Loading Possible Aircraft Type</div>
+                                                        <div class="character_con">B747, A300, A330, B777</div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="cntr_value_list_box air_box">
+                            <div class="cntr_value_list">
+                                <div class="cntr_list">
+                                    <div class="list_con">
+                                        <img src="~/Images/air_cntr7.png" class="air_cntr_img" />
+                                        <div class="air_cntr_con">
+                                            <div class="cntr_con_tit">[항공용 컨테이너]</div>
+                                            <div class="cntr_con_sub_tit">ULD Type(IATA Code) : GM1 Container(AMA)</div>
+                                            <div class="cntr_con_character">
+                                                <div class="character_list top_list">
+                                                    <div class="left_character">
+                                                        <div class="character_tit">Max Capacity (Tare Weight)</div>
+                                                        <div class="character_con">6,804kg (465kg)</div>
+                                                    </div>
+                                                    <div class="right_character">
+                                                        <div class="character_tit">Dimention (inch)</div>
+                                                        <div class="character_con">96 x 125 x 96</div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="cntr_con_character">
+                                                <div class="character_list top_list">
+                                                    <div class="left_character">
+                                                        <div class="character_tit">Utility</div>
+                                                        <div class="character_con">General CGO Garment</div>
+                                                    </div>
+                                                    <div class="right_character">
+                                                        <div class="character_tit">Loading Possible Aircraft Type</div>
+                                                        <div class="character_con">B747F</div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="cntr_value_list_box air_box">
+                            <div class="cntr_value_list">
+                                <div class="cntr_list">
+                                    <div class="list_con">
+                                        <img src="~/Images/air_cntr8.png" class="air_cntr_img" />
+                                        <div class="air_cntr_con">
+                                            <div class="cntr_con_tit">[항공용 컨테이너]</div>
+                                            <div class="cntr_con_sub_tit">ULD Type(IATA Code) : MD11F M1 Container(AMJ)</div>
+                                            <div class="cntr_con_character">
+                                                <div class="character_list top_list">
+                                                    <div class="left_character">
+                                                        <div class="character_tit">Max Capacity (Tare Weight)</div>
+                                                        <div class="character_con">6,804kg (475kg)</div>
+                                                    </div>
+                                                    <div class="right_character">
+                                                        <div class="character_tit">Dimention (inch)</div>
+                                                        <div class="character_con">96 x 125 x 96</div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="cntr_con_character">
+                                                <div class="character_list top_list">
+                                                    <div class="left_character">
+                                                        <div class="character_tit">Utility</div>
+                                                        <div class="character_con">General Cargo Garment</div>
+                                                    </div>
+                                                    <div class="right_character">
+                                                        <div class="character_tit">Loading Possible Aircraft Type</div>
+                                                        <div class="character_con">B747F</div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="cntr_value_list_box air_box">
+                            <div class="cntr_value_list">
+                                <div class="cntr_list">
+                                    <div class="list_con">
+                                        <img src="~/Images/air_cntr9.png" class="air_cntr_img" />
+                                        <div class="air_cntr_con">
+                                            <div class="cntr_con_tit">[항공용 컨테이너]</div>
+                                            <div class="cntr_con_sub_tit">ULD Type(IATA Code) : Horse Stall(HMA)</div>
+                                            <div class="cntr_con_character">
+                                                <div class="character_list top_list">
+                                                    <div class="left_character">
+                                                        <div class="character_tit">Max Capacity (Tare Weight)</div>
+                                                        <div class="character_con">6,804kg (875kg)</div>
+                                                    </div>
+                                                    <div class="right_character">
+                                                        <div class="character_tit">Dimention (inch)</div>
+                                                        <div class="character_con">96 x 125 x 94.5</div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="cntr_con_character">
+                                                <div class="character_list top_list">
+                                                    <div class="left_character">
+                                                        <div class="character_tit">Utility</div>
+                                                        <div class="character_con">Horses</div>
+                                                    </div>
+                                                    <div class="right_character">
+                                                        <div class="character_tit">Loading Possible Aircraft Type</div>
+                                                        <div class="character_con">B747</div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- 컨테이너 적입 이미지 팝업 -->
+    <div class="layer_zone logis" id="cntr_entry_pop">
+        <div class="layer_wrap">
+            <div class="layer_inwrap">
+                <article class="layer_cont">
+                    <div class="terms_area">
+                        <div class="scrollbar_layer">
+                            <h2 class="subtitle02">20FT Dry 기준</h2>
+                            <div class="dry_img dry_20ft">
+                                <img src="~/Images/container1.png" />
+                                <img src="~/Images/container2.png" />
+                                <img src="~/Images/container3.png" />
+                                <img src="~/Images/container4.png" />
+                            </div>
+                            <h2 class="subtitle02">40FT Dry 기준</h2>
+                            <div class="dry_img dry_40ft">
+                                <img src="~/Images/container5.png" />
+                                <img src="~/Images/container6.png" />
+                                <img src="~/Images/container7.png" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="btn_w">
+                        <button type="button" class="btn_check" onclick="layerClose('#cntr_entry_pop');">확인</button>
+                    </div>
+                    <button type="button" class="close cbm" onclick="layerClose('#cntr_entry_pop');"><span class="blind">닫기</span></button>
+                </article>
+            </div>
+        </div>
+    </div>
+    <!-- //컨테이너 적입 이미지 팝업 -->
+    @Scripts.Render("~/Scripts/js/LogisticsTools/cbm.js")
+
+}

@@ -1,0 +1,176 @@
+﻿@{
+    ViewBag.Title = "admin";
+    ViewBag.Sub = "member";
+
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+@section stMain {
+
+    <div class="st-main">
+        <div class="st-header">
+            <div class="fluid_cols">
+                <div class="min_col">
+                    <div class="st-header__menu">
+                        <button class="btn st-sidebar__toggle"><i class="fa fa-bars"></i></button>
+                    </div>
+                </div>
+                <div class="expand-col text-ellipsis">
+                    <div class="st-header__title"><span>포트 관리</span></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="st-content mb50 max_width">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-md-12">
+
+                        <div class="st-panel">
+                            <div class="st-panel__cont">
+                                <div class="st-panel__content ">
+                                    <!-- 검색   -->
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <table class="table table-bordered tb_style01">
+                                                <colgroup>
+                                                    <col class="px100" />
+                                                    <col width="auto" />
+                                                </colgroup>
+                                                <tbody>
+                                                    <tr>
+                                                        <th class="hidden-xs">검색</th>
+                                                        <td>
+                                                            <div class="col-md-2 col-sm-2">
+                                                                <select class="form-control select" id="select_Port" name="select_Port">
+                                                                    <option value="ALL">전체</option>
+                                                                    <option value="START_PORT">출발지 </option>
+                                                                    <option value="BOUND_PORT">바운드 </option>
+                                                                    <option value="LOC_NM">포트 명 </option>
+                                                                    <option value="LOC_CD">포트 코드</option>
+                                                                    <option value="USE_YN">사용여부</option>
+                                                                    <option value="BKG_YN">부킹여부</option>
+                                                                </select>
+                                                            </div>
+                                                            <div class="col-md-5 col-sm-5">
+                                                                <div class="input-group">
+                                                                    <input type="text" class="form-control" id="input_Port" name="input_Port" value="" placeholder="Search for..." />
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-md-1 col-sm-1">
+                                                                <span class="input-group-btn ">
+                                                                    <a href="javascript:void(0);" type="button" id="Port_Search" class="btn  btn-primary _search_btn"><i class="fa fa-search"></i></a>
+                                                                </span>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                    <!-- /. 검색   -->
+                                    <!-- 버튼 -->
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="btn-group pull-right btn_padding" role="group" aria-label="버튼">
+                                                <a href="javascript:void(0);" type="button" id="btn_PortWrite" class="btn btn-primary pull-right _btn_write"><i class="fa fa-pencil-square-o"></i>포트등록</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- /.버튼 -->
+                                    <!-- 리스트 데이타 -->
+                                    <div class="row">
+                                        <div id="dataTbl" class="col-lg-12">
+                                            <table width="100%" class="table table-bordered table-hover tb_style" id="data_table">
+                                                <colgroup>
+                                                    <col width="8%">
+                                                    <col width="10%">
+                                                    <col width="10%">
+                                                    <col width="20%">
+                                                    <col width="10%">
+                                                    <col width="7%">
+                                                    <col width="7%">
+                                                    <col width="13%">
+                                                    <col width="*">
+                                                </colgroup>
+                                                <thead>
+                                                    <tr>
+                                                        <th>번호</th>
+                                                        <th>출발지</th>
+                                                        <th>바운드</th>
+                                                        <th>포트 명</th>
+                                                        <th>포트 코드</th>
+                                                        <th>사용 여부</th>
+                                                        <th>부킹 여부</th>
+                                                        <th>등록일</th>
+                                                        <th>
+
+                                                        </th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody id="Port_Result"></tbody>
+                                            </table>
+                                        </div>
+                                        <!-- /.col-lg-12 -->
+                                    </div>
+                                    <!-- /.리스트 데이타 -->
+                                    <!-- 페이징 -->
+                                    <div class="row">
+                                        <div class="col-md-6 col-md-offset-5">
+                                            <nav aria-label="Page navigation" class="paging">
+                                                <ul class="pagination" id="paging_Area">
+                                                    <li><a href="javascript:void(0);" onclick="goPage(1)"><i class="fa fa-angle-double-left"></i><span class="sr-only">처음페이지로 가기</span></a></li>
+                                                    <li><a href="javascript:void(0);" onclick="goPage(1)"><i class="fa fa-angle-left"></i><span class="sr-only">이전페이지로 가기</span></a></li>
+                                                    <li class="active"><a href="javascript:void(0);">1</a></li>
+                                                    <li><a href="javascript:void(0);" onclick="goPage(1)"><i class="fa fa-angle-right"></i><span class="sr-only">다음페이지로 가기</span></a></li>
+                                                    <li><a href="javascript:void(0);" onclick="goPage(1)"><i class="fa fa-angle-double-right"></i><span class="sr-only">마지막페이지로 가기</span></a></li>
+                                                </ul>
+                                            </nav>
+                                        </div>
+                                    </div>
+                                    <!-- /.페이징 -->
+
+                                    <div class="mb20"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="st-footer">
+            <div class="copyright">
+                Copyrightⓒ 관리자 모드. All right reserved.
+            </div>
+        </div>
+    </div>
+
+    <div class="layer_zone alert_type" id="Port_Confirm">
+        <div class="layer_wrap">
+            <div class="layer_inwrap">
+                <article class="layer_cont">
+                    <div class="layer_tit">
+                        <h1 class="tit"></h1>
+                    </div>
+                    <!-- alert_cont -->
+                    <div class="alert_cont">
+                        <div class="inner">
+                            데이터가 삭제 되었습니다.
+                        </div>
+                    </div>
+                    <!-- //alert_cont -->
+                    <!-- btn_w -->
+                    <div class="btn_w">
+                        <button type="button" class="btns radius cr1" id="Layer_Confirm_port" onclick="alert_layerClose('#Port_Confirm');">확인</button>
+                        <button type="button" class="btns radius cr2" id="Layer_Confirm_Cencel_port" onclick="alert_layerClose('#Port_Confirm');">취소</button>
+                        <input type="hidden" id="Del_Mngt_No" />
+                    </div>
+                    <!-- //btn_w -->
+                </article>
+            </div>
+        </div>
+    </div>
+
+    @Scripts.Render("~/Scripts/js/Admin/_port.js")
+}

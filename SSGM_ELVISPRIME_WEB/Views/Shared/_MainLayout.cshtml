@@ -1,0 +1,442 @@
+﻿<!DOCTYPE html>
+<html lang="kr">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
+    <meta name="format-detection" content="telephone=no">
+    <title>FairConline</title>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="FairConline" />
+    <meta property="og:image" content="http://atest.elvisprime.com/Images/logo.png" />
+    <meta property="og:site_name" content="FairConline" />
+    <meta property="og:url" content="" />
+    <meta property="og:description" content="" />
+    <link rel="preconnect" href="http://atest.elvisprime.com" />
+    @Styles.Render("~/Content/fonts.css")
+    @Styles.Render("~/Content/media.css")
+    @Scripts.Render("~/Scripts/API/jquery-2.2.3.min.js")
+    @Scripts.Render("~/Scripts/API/jquery.AutoComplete.js")
+    @Scripts.Render("~/Scripts/API/jquery.slimscroll.min.js")
+    @Scripts.Render("~/Scripts/API/jquery.scrollbar.min.js")
+    @Scripts.Render("~/Scripts/API/jquery.datetimepicker.full.js")
+    @Scripts.Render("~/Scripts/js/common/Comm.js")
+    @Scripts.Render("~/Scripts/js/common/_layout.js")
+
+
+
+    <script type="text/javascript">
+        var _HomeUrl = window.location.origin;
+        var _Office_CD = '@System.Configuration.ConfigurationManager.AppSettings["OFFICE_CD"]';
+        var _Domain = '@System.Configuration.ConfigurationManager.AppSettings["Domain"]';
+        var _RPA_MngtNo = '@System.Configuration.ConfigurationManager.AppSettings["RPA_MngtNo"]';
+        var _RPA_Key = '@System.Configuration.ConfigurationManager.AppSettings["RPA_Key"]';
+    </script>
+
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/Content/themes/base/jquery-ui.css">
+    <style media="screen and (min-width:1025px)">
+        .member-box__logout > a {
+            position: relative;
+            padding: 15px 20px;
+            color: #fff;
+            border: 1px solid #fff;
+            border-radius: 5px;
+            line-height: 0;
+            cursor: pointer;
+        }
+    </style>
+    <style>
+
+        .dologin > a > span {
+            padding: 15px 20px;
+            color: #fff;
+            border: 1px solid #fff;
+            border-radius: 5px;
+            line-height: 0;
+            top: 30px;
+        }
+
+        .btn_total,
+        .btn_total::before,
+        .btn_total::after {
+            background: #333;
+        }
+    </style>
+</head>
+<body>
+    <div id="wrap">
+        <header id="header" style="display: block;" class="header mainlayout">
+
+            @{
+                if (Session["USR_ID"] == null)
+                {
+                    <input type="hidden" id="Session_USR_ID" value="" />
+                    <input type="hidden" id="Session_LOC_NM" value="" />
+                    <input type="hidden" id="Session_EMAIL" value="" />
+                    <input type="hidden" id="Session_CUST_CD" value="" />
+                    <input type="hidden" id="Session_CUST_NM" value="" />
+                    <input type="hidden" id="Session_HP_NO" value="" />
+                    <input type="hidden" id="Session_DOMAIN" value="" />
+                    <input type="hidden" id="Session_OFFICE_CD" value="" />
+                    <input type="hidden" id="Session_AUTH_KEY" value="" />
+                    <input type="hidden" id="Session_USR_TYPE" value="" />
+                }
+                else
+                {
+                    <input type="hidden" id="Session_USR_ID" value="@Session["USR_ID"]" />
+                    <input type="hidden" id="Session_LOC_NM" value="@Session["USER_NM"]" />
+                    <input type="hidden" id="Session_EMAIL" value="@Session["EMAIL"]" />
+                    <input type="hidden" id="Session_CUST_CD" value="@Session["CUST_CD"]" />
+                    <input type="hidden" id="Session_CUST_NM" value="@Session["CUST_NM"]" />
+                    <input type="hidden" id="Session_HP_NO" value="@Session["HP_NO"]" />
+                    <input type="hidden" id="Session_DOMAIN" value="@Session["DOMAIN"]" />
+                    <input type="hidden" id="Session_OFFICE_CD" value="@Session["OFFICE_CD"]" />
+                    <input type="hidden" id="Session_AUTH_KEY" value="@Session["AUTH_KEY"]" />
+                    <input type="hidden" id="Session_USR_TYPE" value="@Session["USR_TYPE"]" />
+                }
+            }
+
+            <div class="fixed_in type2">
+                <button type="button" id="hamberger" class="mo"><span class="btn_total"></span></button>
+                <nav class="total_menu">
+                    <a href="@Url.Action("Index","Home")">
+                        <img src="~/Images/logo.png" class="mo" style="padding:20px;" />
+                    </a>
+                    <ul class="lnb">
+                        @{
+                            if (Session["USR_ID"] == null)
+                            {
+                                <li id="sub">
+                                    <a href="javascript:void(0)" onclick="fnShowLoginLayer('/MyData')" title="MY DATA"><span>MY DATA</span></a>
+                                    <div class="sub_depth">
+                                        <ul>
+                                            <li><a href="javascript:void(0)" onclick="fnShowLoginLayer('/MyData')"><span class="mo_icn_check"><span class="mo">·&nbsp;</span>MY DATA</span></a></li>
+                                        </ul>
+                                    </div>
+                                </li>
+                                <li>
+                                    <a href="@Url.Action("Index", "Schedule")" title="SCHEDULE"><span>SCHEDULE</span></a>
+                                    <div class="sub_depth">
+                                        <ul>
+                                            <li><a href="@Url.Action("Index", "Schedule")"><span class="mo_icn_check"><span class="mo">·&nbsp;</span>SCHEDULE</span></a></li>
+                                        </ul>
+                                    </div>
+                                </li>
+                                <li id="sub2">
+                                    <a onclick="fnShowLoginLayer('/Booking/Regist')" title="BOOKING"><span>BOOKING</span></a>
+                                    <div class="sub_depth">
+                                        <ul>
+                                            <li onclick="fnShowLoginLayer('/Booking/Regist')"><a href="javascript:void(0)"><span class="mo_icn_check"><span class="mo">·&nbsp;</span>BOOKING</span></a></li>
+                                            <li onclick="fnShowLoginLayer('/Booking/BookingInfo')"><a href="javascript:void(0)"><span class="mo_icn_check"><span class="mo">·&nbsp;</span>BOOKING INFO</span></a></li>
+                                            <li onclick="fnShowLoginLayer('/Warehouse')"><a href="javascript:void(0)"><span class="mo_icn_check"><span class="mo">·&nbsp;</span>WAREHOUSE</span></a></li>
+                                        </ul>
+                                    </div>
+                                </li>
+                                <li>
+                                    <a href="@Url.Action("Notice", "LogisticsInfo")" title="LOGISTICS INFO"><span>LOGISTICS INFO</span></a>
+                                    <div class="sub_depth">
+                                        <ul>
+                                            <li><a href="@Url.Action("Notice", "LogisticsInfo")"><span class="mo_icn_check"><span class="mo">·&nbsp;</span>NOTICE</span></a></li>
+                                            <li><a href="@Url.Action("CBM", "LogisticsInfo")"><span class="mo_icn_check"><span class="mo">·&nbsp;</span>CBM CALCULATOR</span></a></li>
+                                            <li><a href="@Url.Action("Incoterms", "LogisticsInfo")"><span class="mo_icn_check"><span class="mo">·&nbsp;</span>INCOTERMS</span></a></li>
+                                            <li><a href="https://unipass.customs.go.kr/clip/index.do?opnurl=/hsinfosrch/openULS0201001Q.do" target="_blank"><span class="mo_icn_check"><span class="mo">·&nbsp;</span>HS CODE</span></a></li>
+                                            <li><a href="@Url.Action("PortLocation", "LogisticsInfo")"><span class="mo_icn_check"><span class="mo">·&nbsp;</span>PORT INFO</span></a></li>
+                                        </ul>
+                                    </div>
+                                </li>
+                            }
+                            else
+                            {
+
+                                <li>
+                                    <a href="@Url.Action("Index", "MyData")" title="MY DATA"><span>MY DATA</span></a>
+                                    <div class="sub_depth">
+                                        <ul>
+                                            <li><a href="@Url.Action("Index", "MyData")"><span class="mo_icn_check"><span class="mo">·&nbsp;</span>MY DATA</span></a></li>
+                                        </ul>
+                                    </div>
+                                </li>
+                                <li>
+                                    <a href="@Url.Action("Index", "Schedule")" title="SCHEDULE"><span>SCHEDULE</span></a>
+                                    <div class="sub_depth">
+                                        <ul>
+                                            <li><a href="@Url.Action("Index", "Schedule")"><span class="mo_icn_check"><span class="mo">·&nbsp;</span>SCHEDULE</span></a></li>
+                                        </ul>
+                                    </div>
+                                </li>
+                                <li>
+                                    <a href="@Url.Action("Regist", "Booking")" title="BOOKING"><span>BOOKING</span></a>
+                                    <div class="sub_depth">
+                                        <ul>
+                                            <li><a href="@Url.Action("Regist", "Booking")"><span class="mo_icn_check"><span class="mo">·&nbsp;</span>BOOKING</span></a></li>
+                                            <li><a href="@Url.Action("BookingInfo", "Booking")"><span class="mo_icn_check"><span class="mo">·&nbsp;</span>BOOKING INFO</span></a></li>
+                                            <li><a href="@Url.Action("Index", "Warehouse")"><span class="mo_icn_check"><span class="mo">·&nbsp;</span>WAREHOUSE</span></a></li>
+                                        </ul>
+                                    </div>
+                                </li>
+                                <li>
+                                    <a href="@Url.Action("Notice", "LogisticsInfo")" title="LOGISTICS INFO"><span>LOGISTICS INFO</span></a>
+                                    <div class="sub_depth">
+                                        <ul>
+                                            <li><a href="@Url.Action("Notice", "LogisticsInfo")"><span class="mo_icn_check"><span class="mo">·&nbsp;</span>NOTICE</span></a></li>
+                                            <li><a href="@Url.Action("CBM", "LogisticsInfo")"><span class="mo_icn_check"><span class="mo">·&nbsp;</span>CBM CALCULATOR</span></a></li>
+                                            <li><a href="@Url.Action("Incoterms", "LogisticsInfo")"><span class="mo_icn_check"><span class="mo">·&nbsp;</span>INCOTERMS</span></a></li>
+                                            <li><a href="https://unipass.customs.go.kr/clip/index.do?opnurl=/hsinfosrch/openULS0201001Q.do" target="_blank"><span class="mo_icn_check"><span class="mo">·&nbsp;</span>HS CODE</span></a></li>
+                                            <li><a href="@Url.Action("PortLocation", "LogisticsInfo")"><span class="mo_icn_check"><span class="mo">·&nbsp;</span>PORT INFO</span></a></li>
+                                        </ul>
+                                    </div>
+                                </li>
+
+                            }
+                        }
+
+
+                        @{
+                            if (Session["USR_ID"] == null)
+                            {
+                                <!-- S : 로그인 전-->
+                                <li class="dologin">
+                                    <a onclick="layerPopup3('#login_pop')" title="LOGIN">
+                                        <span title="LOGIN">LOGIN</span>
+                                    </a>
+                                </li>
+                                <!-- 로그인 전 -->
+                            }
+                            else
+                            {
+                                <div class="after_login">
+                                    <!-- S : 로그인 후-->
+                                    <div class="member-box__logout">
+                                        <div class="text item" style="color:#fff">@*안녕하세요,*@ <span class="user_nm">@Session["USER_NM"]</span>님</div>
+                                        <a class="btn-logout" onclick="_fnLogout()" title="LOGOUT">LOGOUT</a>
+                                    </div>
+                                    <!-- E : 로그인 후-->
+                                </div>
+                            }
+                        }
+                    </ul>
+                    <div class="left-search">
+                        <div class="int_box search-form">
+                            <input type="text" class="search-form__input" placeholder="HB/L NO, CNTR NO" id="Mngt_no_Mo" maxlength="20" />
+                            <button type="button" class="btns icon delete" style="display: none;"><span class="blind">삭제</span></button>
+                            <button class="search-form__button" id="SearchTrackingMo">search</button>
+                        </div>
+                    </div>
+                    <button class="btn_menu_close"></button>
+                </nav>
+            </div>
+        </header>
+
+        @RenderSection("Container", required: false)
+    </div>
+
+    <!-- layer_zone SEA 화물 추적  -->
+    <div class="layer_zone tracking_layer" id="SVT_tracking_layer">
+        <div class="layer_wrap">
+            <div class="layer_inwrap" style="overflow-x:auto;">
+                <article class="layer_cont">
+                    <!-- tracking_area -->
+                    <div class="tracking_area">
+                        <!-- 배경지도 영역 추가하기-->
+                        <div class="tracking_inner" id="SVT_layer_Area">
+                            <form name="viewerForm" id="viewerForm">
+                                <input type="hidden" id="Tradlx_token" name="Authorization" value="">
+                            </form>
+                            <iframe frameborder="0" style="border: 0; height: 100%; left: 0; position: absolute; top: 0; width: 1763px;" allowfullscreen name="viewer"></iframe>
+                        </div>
+                    </div>
+                    <!-- delivery_status -->
+                    <div class="delivery_status SVT_layer_delivery_status" style="display:none">
+                        <div class="top_box">
+                            <button type="button" class="btn_close" id="SVT_layer_delivery_status_close">CLOSE</button>
+                            <!-- cargo_info -->
+                            <div class="cargo_info">
+                                <div class="col">
+                                    <em class="tit">Master B/L No :</em>
+                                    <p id="SVT_Trk_Layer_MBL_NO"></p>
+                                </div>
+                                <div class="col">
+                                    <em class="tit">House B/L No :</em>
+                                    <p id="SVT_Trk_Layer_HBL_NO"></p>
+                                </div>
+                            </div>
+                            <!-- //cargo_info -->
+                        </div>
+                        <div class="shipping_step">
+                            <div class="scrollbar_layer">
+                                <ul id="SVT_layer_trackAppend"></ul>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- //delivery_status -->
+                    <!-- //tracking_area -->
+                    <button type="button" class="btns close white" onclick="layerClose('#SVT_tracking_layer');"><span class="blind">닫기</span></button>
+                </article>
+            </div>
+        </div>
+    </div>
+
+
+
+    <!-- //layer_zone 화물 추적 **항공**-->
+    <div class="layer_zone delivery_pop" id="L_delivery_pop">
+        <div class="layer_wrap">
+            <div class="layer_inwrap">
+                <article class="layer_cont">
+                    <div class="search_top">
+                        <input type="text" name="" value="" class="vali_container" placeholder="#B/L , #CNTR" id="Layer_L_Tracking" autocomplete="off">
+                        <span class="focus-border"></span>
+                        <button type="button" id="L_btnAirTrkSearch" class="btn_search"><span class="blind">검색</span></button>
+                    </div>
+                    <div class="trk_list" id="layer_tracking_List"></div>
+                    @*<button type="button" class="btns icon type3" onclick="layerClose('#L_delivery_pop');"><span class="blind">닫기</span></button>*@
+                    <button type="button" class="btns icon close type1" onclick="layerClose('#L_delivery_pop');"><span class="blind">검색 닫기</span></button>
+                </article>
+            </div>
+        </div>
+    </div>
+
+    <div class="layer_zone alert_type" id="alert01">
+        <div class="layer_wrap">
+            <div class="layer_inwrap">
+                <article class="layer_cont">
+                    <div class="layer_tit">
+                        <h1 class="tit"></h1>
+                    </div>
+                    <div class="alert_cont">
+                        <div class="inner">
+                            데이터가 삭제 되었습니다.
+                        </div>
+                    </div>
+                    <div class="btn_w">
+                        <button type="button" class="btns radius cr1 loginChk" id="alert01_confirm" onclick="layerClose('#alert01');">확인</button>
+                    </div>
+                </article>
+            </div>
+        </div>
+    </div>
+    <div class="layer_zone alert_type" id="alert02">
+        <div class="layer_wrap">
+            <div class="layer_inwrap">
+                <article class="layer_cont">
+                    <div class="layer_tit">
+                        <h1 class="tit"></h1>
+                    </div>
+                    <div class="alert_cont">
+                        <div class="inner">
+                            데이터가 삭제 되었습니다.
+                        </div>
+                    </div>
+                    <div class="btn_w">
+                        <button type="button" class="btns radius cr1 loginChk" id="alert02_confirm" onclick="layerClose('#alert02');">확인</button>
+                        <button type="button" class="btns radius cr2 loginChk" id="alert02_cencel" onclick="layerClose('#alert02');">취소</button>
+                    </div>
+                </article>
+            </div>
+        </div>
+    </div>
+    <div class="layer_zone type1 login_pop" id="login_pop" style="display: none;">
+        <div class="layer_wrap">
+            <div class="layer_inwrap">
+                <article class="layer_cont" style="background:#eeeeff; ">
+                    <div class="alert_cont">
+                        <h2 class="title05"><img src="~/Images/login_bg.png" /></h2>
+                        <p class="login_txt">
+                            Start Your Business with<br />
+                            <strong>FairConline</strong>
+                        </p>
+                        <div class="login_form">
+                            <form>
+                                <div class="cell">
+                                    <input type="text" value="" class="int login" id="Login_ID" maxlength="50" autocomplete="off" placeholder="아이디를 입력하세요." style="height:40px!important;">
+                                </div>
+                                <div class="cell">
+                                    <input type="password" class="int" id="Login_Password" maxlength="16" autocomplete="off" placeholder="비밀번호를 입력하세요." style="height:40px!important;">
+                                </div>
+                                <div id="Email_Warning" style="display:none">
+                                    <p class="incorrect_login Span_Warning">아이디를 입력 하세요.</p>
+                                </div>
+                                <div id="Password_Warning" style="display:none">
+                                    <p class="incorrect_login Span_Warning">비밀번호를 입력 하세요.</p>
+                                </div>
+                                <div class="chk_box" style="display:flex; justify-content:flex-end; padding-top: 8px;">
+                                    <div class="chk" style="padding-right:15px; display:none;">
+                                        <span class="check type1">
+                                            <input type="checkbox" id="login_auto" name="login_auto" class="chk">
+                                            <label for="login_auto">자동 로그인</label>
+                                        </span>
+                                    </div>
+                                    <div class="chk">
+                                        <span class="check type1">
+                                            <input type="checkbox" id="login_keep" name="login_keep" class="chk">
+                                            <label for="login_keep">아이디 저장</label>
+                                        </span>
+                                    </div>
+                                </div>
+                                <button type="button" class="btn_type1" id="Login_btn">로그인</button>
+                            </form>
+                        </div>
+                    </div>
+                    <button type="button" class="btns icon close type1" id="login_popdown"><span class="blind">닫기</span></button>
+                </article>
+            </div>
+        </div>
+    </div>
+    <div class="layer_zone alert_type" id="layer_in_alert">
+        <div class="layer_wrap">
+            <div class="layer_inwrap">
+                <article class="layer_cont">
+                    <div class="layer_tit">
+                        <h1 class="tit"></h1>
+                    </div>
+                    <div class="alert_cont">
+                        <div class="inner" id="layer_in_alert_content">
+                        </div>
+                    </div>
+                    <div class="btn_w">
+                        <button type="button" class="btns radius cr1 loginChk" id="alert_layer01" onclick="alert_layerClose('#layer_in_alert');">확인</button>
+                    </div>
+                    <button type="button" class="btn_close close loginChk" id="alert_close" onclick="alert_layerClose('#layer_in_alert');"><span class="blind">닫기</span></button>
+                </article>
+            </div>
+        </div>
+    </div>
+    <div class="layer_zone alert_type" id="CheckLogin" style="background: rgba(0,0,0,1.0);">
+        <div class="layer_wrap">
+            <div class="layer_inwrap" id="CheckLogin_inwrap">
+                <article class="layer_cont">
+                    <div class="layer_tit">
+                        <h1 class="tit"></h1>
+                    </div>
+                    <div class="alert_cont">
+                        <div class="inner">
+                            로그인을 먼저 해주세요.
+                        </div>
+                    </div>
+                    <div class="btn_w">
+                        <button type="button" class="btns radius cr1" id="layer_alertLogin" onclick="layerClose('#CheckLogin');">확인</button>
+                    </div>
+                </article>
+            </div>
+        </div>
+    </div>
+    <div class="loading" id="ProgressBar_Loading" style="display:none">
+        <div class="ispinner ispinner-large">
+            <div class="ispinner-blade"></div>
+            <div class="ispinner-blade"></div>
+            <div class="ispinner-blade"></div>
+            <div class="ispinner-blade"></div>
+            <div class="ispinner-blade"></div>
+            <div class="ispinner-blade"></div>
+            <div class="ispinner-blade"></div>
+            <div class="ispinner-blade"></div>
+            <div class="ispinner-blade"></div>
+            <div class="ispinner-blade"></div>
+            <div class="ispinner-blade"></div>
+            <div class="ispinner-blade"></div>
+        </div>
+    </div>
+    <div class="toast_wrap"></div>
+</body>
+@Scripts.Render("~/Scripts/Pub/common.js")
+</html>

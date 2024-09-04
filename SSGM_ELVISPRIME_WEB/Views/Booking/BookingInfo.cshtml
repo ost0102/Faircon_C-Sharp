@@ -1,0 +1,887 @@
+﻿@{
+    ViewBag.Title = "Booking";
+    ViewBag.Sub = "BookingInfo";
+
+    Layout = "~/Views/Shared/_SubLayout.cshtml";
+}
+
+@section Container {
+    <input type="hidden" id="View_BKG_NO" value="@ViewBag.BKG_NO" />
+    <input type="hidden" id="REG_BKG_NO" value="@ViewBag.REG_BKG_NO" />
+
+    <script>
+        $('.lnb > li:nth-child(3)').addClass('on');
+        $('.lnb > li.on .sub_depth li:nth-child(2) a').addClass('on');
+    </script>
+
+    <div class="container">
+        <div class="sub_visual" id="Schedule">
+            <div class="inner">
+                <h4 class="subtitle" id="Booking_Title">
+                    <span>
+                        Start Your Business<br />
+                        with <strong>FairConline</strong>
+                    </span>
+                </h4>
+            </div>
+        </div>
+        <div class="sub_cover" id="SubCover">
+            <div class="fixed_in type2 booking section--bk-sck booking-inquiry">
+                <h3 class="page_nm">BOOKING INFO</h3>
+                <!-- S : (search-bar)-->
+                <div class="sch-bar sch-bar--board">
+                    <div class="sch-box row align-items-center no-pos">
+                        <div class="sch-item item1" style="display:none;">
+                            <select name="Export" class="btn-selc" id="Select_Bound">
+                                <option value="E">Export</option>
+                                @*<option value="I">Import</option>*@
+                            </select>
+                        </div>
+                        <div class="sch-item item2">
+                            <select name="Service" class="btn-selc" id="select_CntrType">
+                                <option value="F">FCL</option>
+                                <option value="L" selected>LCL</option>
+                            </select>
+                        </div>
+                        <div class="sch-item item3">
+                            <select name="Booking Date/ ETD / ETA" class="btn-selc" id="Select_BK_ETD_ETA">
+                                <option value="ALL">Booking Date / ETD / ETA</option>
+                                <option value="BK">Booking Date</option>
+                                <option value="ETD" selected>ETD</option>
+                                <option value="ETA">ETA</option>
+                            </select>
+                        </div>
+                        @*<div class="sch-item item4">
+                    <div class="date-wrap">
+                        <input type="text" name="" class="input-date datepicker" placeholder="출발일" id="input_ETD" />
+                        <span class="icon-date" id="input_ETD_Icon"></span>
+                    </div>
+                </div>
+                <div class="sch-item item5">
+                    <div class="date-wrap">
+                        <input type="text" name="" class="input-date datepicker" placeholder="도착일" id="input_ETA" />
+                        <span class="icon-date" id="input_ETA_Icon"></span>
+                    </div>
+                </div>*@
+                        <div class="sch-item item4">
+                            <div class="date-wrap">
+                                <input type="text" name="" class="input-date start_date" placeholder="Departure Date" id="input_ETD" />
+                                <span class="icon-date" id="input_ETD_Icon"></span>
+                            </div>
+                        </div>
+                        <div class="sch-item item5">
+                            <div class="date-wrap">
+                                <input type="text" name="" class="input-date end_date" placeholder="Arrival Date" id="input_ETA" />
+                                <span class="icon-date" id="input_ETA_Icon"></span>
+                            </div>
+                        </div>
+                        <div class="sch-item item6">
+                            <button type="submit" title="Search" class="btn-type-01 btn-sch" id="btn_BkList_Search" onclick="fnMovePage('tab_area')"><i class="xi-search"></i></button>
+                        </div>
+                        <div class="sch-item box2 d-none item7">
+                            <select name="Booking_Status" class="btn-selc" id="select_BkgDetail_Status">
+                                <option value="ALL">부킹상태(전체)</option>
+                                <option value="C">부킹취소</option>
+                                <option value="O">부킹거절</option>
+                                <option value="Q">부킹요청</option>
+                                <option value="Y">부킹승인</option>
+                            </select>
+                        </div>
+                        <div class="sch-item box2 d-none item8">
+                            <div class="pop__export">
+                                <select id="pop_start">
+                                    <option>출발</option>
+                                    <option value="KRPUS">Busan</option>
+                                    @*<option value="KRINC">Incheon</option>*@
+                                </select>
+                                @*<a class="link btn-dpt start-region">
+                                     <span class="tit" id="input_POL">출발</span>
+                                     <input type="hidden" class="input-sch" value="" id="input_POLCD" />
+                                     <img src="~/Images/Masstige/e-service/maker-icon.png" class="btn-marker" alt="Search Button" />
+                                 </a>
+                                 <button type="button" class="delete-btn" style="display:none" name="del_POL"><i class="xi-close-thin"></i></button>*@
+                            </div>
+                            <div class="select_pop" id="select_SEA_pop01" style="display:none;">
+                                <h3 class="title03">주요 출발지 선택<img src="~/Images/close_white.png" class="close_select" /></h3>
+                                <div class="select_location">
+                                    <div class="">
+                                        <div>
+                                            <table class="tbl_option mo" id="quick_SEA_POLCD1">
+                                                <tbody>
+                                                    <tr>
+                                                        <th colspan="3">KOREA</th>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><button class="quick_pol_port"type="button" value="BUSAN, KOREA;KRPUS"><span>Busan</span></button></td>
+                                                        <td><button class="quick_pol_port"type="button" value="INCHEON,KOREA;KRINC"><span>Incheon</span></button></td>
+                                                        <td></td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                                <button type="button" class="btns icon close" onclick="selectPopClose('#select_SEA_pop01');"><span class="blind">닫기</span></button>
+                            </div>
+                        </div>
+                        <div class="sch-item box2 d-none item9 no-pos">
+                            <div class="pop__import">
+                                <div class="input-box">
+                                    <input type="text" id="input_POD" placeholder="도착" style="height: 35px; width: 100%; color: #413fb3; font-weight: 500;" />
+                                    <input type="hidden" class="input-sch" value="" id="input_PODCD" />
+                                    <button type="button" class="delete-btn" style="display:none; right:20px;" name="del_POD"><i class="xi-close-thin"></i></button>
+                                    <img src="~/Images/Masstige/e-service/maker-icon.png" class="btn-marker" alt="검색버튼" style="position:absolute; right:10px; top:50%; transform:translateY(-50%); width:15px; height:20px;" />
+                                </div>
+                                @*<a class="link btn-dpt arrive-region" id="sch_pod_popup">
+                                    <span class="tit" id="input_POD">도착</span>
+                                    <input type="hidden" class="input-sch" value="" id="input_PODCD" />
+                                    <img src="~/Images/Masstige/e-service/maker-icon.png" class="btn-marker" alt="Search Button" />
+                                </a>
+                                <button type="button" class="delete-btn" style="display:none" name="del_POD"><i class="xi-close-thin"></i></button>*@
+                            </div>
+                            <div class="select_pop" id="select_SEA_pop02" style="display: none; width: 100%;">
+                                <h3 class="title03">
+                                    주요 도착지 선택
+                                    <img src="~/Images/close_white.png" class="close_select" />
+                                </h3>
+                                <div class="select_location">
+                                    <div>
+                                        <div>
+                                            <div class="tbl_option pc" id="quick_SEA_PODCD2">
+                                                <div id="ArrivePort">
+                                                    <div class="location-list_all">
+                                                        <div class="continent">ASIA</div>
+                                                        <div class="location-list_detail">
+                                                            <div class="location_nm"><button type="button" value="BUSAN, KOREA;KRPUS"><span>Hochiminh</span></button></div>
+                                                            <div class="location_nm"><button type="button" value="INCHEON,KOREA;KRINC"><span>Haiphong</span></button></div>
+                                                            <div class="location_nm"><button type="button" value="PYEONGTAEK, KOREA;KRPTK"><span>Danang</span></button></div>
+                                                            <div class="location_nm"><button type="button" value="ULSAN, KOREA;KRUSN"><span>Bangkok</span></button></div>
+                                                            <div class="location_nm"><button type="button" value="ULSAN, KOREA;KRUSN"><span>Laem Chabang</span></button></div>
+                                                            <div class="location_nm"><button type="button" value="ULSAN, KOREA;KRUSN"><span>Hongkong</span></button></div>
+                                                            <div class="location_nm"><button type="button" value="ULSAN, KOREA;KRUSN"><span>Shekou</span></button></div>
+                                                            <div class="location_nm"><button type="button" value="ULSAN, KOREA;KRUSN"><span>Jakarta</span></button></div>
+                                                            <div class="location_nm"><button type="button" value="ULSAN, KOREA;KRUSN"><span>Surabaya</span></button></div>
+                                                            <div class="location_nm"><button type="button" value="ULSAN, KOREA;KRUSN"><span>Vladivostok</span></button></div>
+                                                            <div class="location_nm"><button type="button" value="ULSAN, KOREA;KRUSN"><span>Karachi</span></button></div>
+                                                            <div class="location_nm"><button type="button" value="ULSAN, KOREA;KRUSN"><span>Chattogram</span></button></div>
+                                                            <div class="location_nm"><button type="button" value="ULSAN, KOREA;KRUSN"><span>Colombo</span></button></div>
+                                                            <div class="location_nm"><button type="button" value="ULSAN, KOREA;KRUSN"><span>Singapore</span></button></div>
+                                                            <div class="location_nm"><button type="button" value="ULSAN, KOREA;KRUSN"><span>Sihanoukville</span></button></div>
+                                                            <div class="location_nm"><button type="button" value="ULSAN, KOREA;KRUSN"><span>Manila</span></button></div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="location-list_all">
+                                                        <div class="continent">1AISA</div>
+                                                        <div class="location-list_detail">
+                                                            <div class="location_nm"><button type="button" value="SHANGHAI, CHINA;CNSHA"><span>Keelung</span></button></div>
+                                                            <div class="location_nm"><button type="button" value="HONG KONG;HKHKG"><span>Kaoshiung</span></button></div>
+                                                            <div class="location_nm"><button type="button" value="NINGBO, CHINA;CNNGB"><span>Taichung</span></button></div>
+                                                            <div class="location_nm"><button type="button" value="QINGDAO, CHINA;CNTAO"><span>Port Kelang</span></button></div>
+                                                            <div class="location_nm"><button type="button" value="SHEKOU, CHINA;CNSHK"><span>Penang</span></button></div>
+                                                            <div class="location_nm"><button type="button" value="SHEKOU, CHINA;CNSHK"><span>Chennai</span></button></div>
+                                                            <div class="location_nm"><button type="button" value="SHEKOU, CHINA;CNSHK"><span>Kattupalli</span></button></div>
+                                                            <div class="location_nm"><button type="button" value="SHEKOU, CHINA;CNSHK"><span>Nhava Sheva</span></button></div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="location-list_all">
+                                                        <div class="continent">CHINA</div>
+                                                        <div class="location-list_detail">
+                                                            <div class="location_nm"><button type="button" value="HAIPHONG, VIETNAM;VNHPH"><span>Shanghai</span></button></div>
+                                                            <div class="location_nm"><button type="button" value="HO CHI MINH CITY, VIETNAM;VNSGN"><span>Xingang</span></button></div>
+                                                            <div class="location_nm"><button type="button" value="KAOHSIUNG, TAIWAN;TWKHH"><span>Qingdao</span></button></div>
+                                                            <div class="location_nm"><button type="button" value="SINGAPORE;SGSIN"><span>Dalian</span></button></div>
+                                                            <div class="location_nm"><button type="button" value="JAKARTA, INDONESIA;IDJKT"><span>Ningbo</span></button></div>
+                                                            <div class="location_nm"><button type="button" value="JAKARTA, INDONESIA;IDJKT"><span>Xiamen</span></button></div>
+                                                            <div class="location_nm"><button type="button" value="JAKARTA, INDONESIA;IDJKT"><span>Nanjing</span></button></div>
+                                                            <div class="location_nm"><button type="button" value="JAKARTA, INDONESIA;IDJKT"><span>Yantai</span></button></div>
+                                                            <div class="location_nm"><button type="button" value="SHEKOU, CHINA;CNSHK"><span>Qingdao-Ferry</span></button></div>
+                                                            <div class="location_nm"><button type="button" value="SHEKOU, CHINA;CNSHK"><span>Weihai</span></button></div>
+                                                            <div class="location_nm"><button type="button" value="SHEKOU, CHINA;CNSHK"><span>Weihai-Ferry</span></button></div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="location-list_all">
+                                                        <div class="continent">JAPAN</div>
+                                                        <div class="location-list_detail">
+                                                            <div class="location_nm"><button type="button" value="LONG BEACH, U.S.A.;USLGB"><span>Tokyo</span></button></div>
+                                                            <div class="location_nm"><button type="button" value="NEW YORK, U.S.A.;USNYC"><span>Yokohama</span></button></div>
+                                                            <div class="location_nm"><button type="button" value="MOBILE, AL;USMOB"><span>Nagoya</span></button></div>
+                                                            <div class="location_nm"><button type="button" value="TACOMA, U.S.A.;USTIW"><span>Osaka</span></button></div>
+                                                            <div class="location_nm"><button type="button" value="SEATTLE, U.S.A.;USSEA"><span>Kobe</span></button></div>
+                                                            <div class="location_nm"><button type="button" value="SEATTLE, U.S.A.;USSEA"><span>Moji</span></button></div>
+                                                            <div class="location_nm"><button type="button" value="SEATTLE, U.S.A.;USSEA"><span>Hakata</span></button></div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="location-list_all">
+                                                        <div class="continent">EUROPR</div>
+                                                        <div class="location-list_detail">
+                                                            <div class="location_nm"><button type="button" value="HAMBURG, GERMANY;DEHAM"><span>Hamburg</span></button></div>
+                                                            <div class="location_nm"><button type="button" value="KOPER, SLOVENIA;SIKOP"><span>Southampton</span></button></div>
+                                                            <div class="location_nm"><button type="button" value="ROTTERDAM, NETHERLANDS;NLRTM"><span>Rotterdam/Antwerp</span></button></div>
+                                                            <div class="location_nm"><button type="button" value="ANTWERPEN, BELGIUM;BEANR"><span>Prague</span></button></div>
+                                                            <div class="location_nm"><button type="button" value="LE HAVRE, FRANCE;FRLEH"><span>Budapest</span></button></div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="location-list_all">
+                                                        <div class="continent">MEDSEA</div>
+                                                        <div class="location-list_detail">
+                                                            <div class="location_nm"><button type="button" value="ADELAIDE, AUSTRALIA;AUADL"><span>Haydarpasa</span></button></div>
+                                                            <div class="location_nm"><button type="button" value="MELBOURNE, AUSTRALIA;AUMEL"><span>Ambarli (Kumport)</span></button></div>
+                                                            <div class="location_nm"><button type="button" value="SYDNEY, AUSTRALIA;AUSYD"><span>FOS (Marseille)</span></button></div>
+                                                            <div class="location_nm"><button type="button" value="BRISBANE, AUSTRALIA;AUBNE"><span>Genoa</span></button></div>
+                                                            <div class="location_nm"><button type="button" value="AUCKLAND, NEW ZEALAND;NZAKL"><span>Ashdod</span></button></div>
+                                                            <div class="location_nm"><button type="button" value="AUCKLAND, NEW ZEALAND;NZAKL"><span>Barcelona</span></button></div>
+                                                            <div class="location_nm"><button type="button" value="AUCKLAND, NEW ZEALAND;NZAKL"><span>Valencia</span></button></div>
+                                                            <div class="location_nm"><button type="button" value="AUCKLAND, NEW ZEALAND;NZAKL"><span>Piraeus</span></button></div>
+                                                            <div class="location_nm"><button type="button" value="AUCKLAND, NEW ZEALAND;NZAKL"><span>Sines</span></button></div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="location-list_all">
+                                                        <div class="continent">MID-EAST</div>
+                                                        <div class="location-list_detail">
+                                                            <div class="location_nm"><button type="button" value="JAWAHARLAL NEHRU (NHAVA SHEVA), INDIA;INNSA"><span>Dubai</span></button></div>
+                                                            <div class="location_nm"><button type="button" value="CHENNAI (EX MADRAS), INDIA;INMAA"><span>Alexandria</span></button></div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="location-list_all">
+                                                        <div class="continent">NORTH AMERICA</div>
+                                                        <div class="location-list_detail">
+                                                            <div class="location_nm"><button type="button" value="BANDAR ABBAS, IRAN;IRBND"><span>Long Beach</span></button></div>
+                                                            <div class="location_nm"><button type="button" value="ISTANBUL, TURKEY;TRIST"><span>New York</span></button></div>
+                                                            <div class="location_nm"><button type="button" value="JEBEL ALI, UNITED ARAB EMIRATES;AEJEA"><span>Oakland</span></button></div>
+                                                            <div class="location_nm"><button type="button" value="JEDDAH, SAUDI ARABIA;SAJED"><span>Seattle</span></button></div>
+                                                            <div class="location_nm"><button type="button" value="EL ISKANDARIYA (= ALEXANDRIA), EGYPT;EGALY"><span>Chicago</span></button></div>
+                                                            <div class="location_nm"><button type="button" value="EL ISKANDARIYA (= ALEXANDRIA), EGYPT;EGALY"><span>Vancouver</span></button></div>
+                                                            <div class="location_nm"><button type="button" value="EL ISKANDARIYA (= ALEXANDRIA), EGYPT;EGALY"><span>Toronto</span></button></div>
+                                                            <div class="location_nm"><button type="button" value="EL ISKANDARIYA (= ALEXANDRIA), EGYPT;EGALY"><span>Montreal</span></button></div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="location-list_all">
+                                                        <div class="continent">LATIN AMERICA</div>
+                                                        <div class="location-list_detail">
+                                                            <div class="location_nm"><button type="button" value="KOBE, JAPAN;JPUKB"><span>Colon Free Zone</span></button></div>
+                                                            <div class="location_nm"><button type="button" value="OSAKA, JAPAN;JPOSA"><span>Caucedo</span></button></div>
+                                                            <div class="location_nm"><button type="button" value="TOKYO, JAPAN;JPTYO"><span>Manzanillo</span></button></div>
+                                                            <div class="location_nm"><button type="button" value="YOKOHAMA, JAPAN;JPYOK"><span>Buenaventura</span></button></div>
+                                                            <div class="location_nm"><button type="button" value="NAGOYA, AICHI;JPNGO"><span>Guatemala City</span></button></div>
+                                                            <div class="location_nm"><button type="button" value="NAGOYA, AICHI;JPNGO"><span>San Jose</span></button></div>
+                                                            <div class="location_nm"><button type="button" value="NAGOYA, AICHI;JPNGO"><span>Managua</span></button></div>
+                                                            <div class="location_nm"><button type="button" value="NAGOYA, AICHI;JPNGO"><span>Callao</span></button></div>
+                                                            <div class="location_nm"><button type="button" value="NAGOYA, AICHI;JPNGO"><span>Valparaiso</span></button></div>
+                                                            <div class="location_nm"><button type="button" value="NAGOYA, AICHI;JPNGO"><span>Iquique</span></button></div>
+                                                            <div class="location_nm"><button type="button" value="NAGOYA, AICHI;JPNGO"><span>Guayaquil</span></button></div>
+                                                            <div class="location_nm"><button type="button" value="NAGOYA, AICHI;JPNGO"><span>Santos</span></button></div>
+                                                            <div class="location_nm"><button type="button" value="NAGOYA, AICHI;JPNGO"><span>Itajai</span></button></div>
+                                                            <div class="location_nm"><button type="button" value="NAGOYA, AICHI;JPNGO"><span>Buenos Aires</span></button></div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="location-list_all">
+                                                        <div class="continent">OCEANIA</div>
+                                                        <div class="location-list_detail">
+                                                            <div class="location_nm"><button type="button" value="BANDAR ABBAS, IRAN;IRBND"><span>Melbourne</span></button></div>
+                                                            <div class="location_nm"><button type="button" value="ISTANBUL, TURKEY;TRIST"><span>Sydney</span></button></div>
+                                                            <div class="location_nm"><button type="button" value="JEBEL ALI, UNITED ARAB EMIRATES;AEJEA"><span>Brisbane</span></button></div>
+                                                            <div class="location_nm"><button type="button" value="JEDDAH, SAUDI ARABIA;SAJED"><span>Auckland</span></button></div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="location-list_all">
+                                                        <div class="continent">AFRICA</div>
+                                                        <div class="location-list_detail">
+                                                            <div class="location_nm"><button type="button" value="BANDAR ABBAS, IRAN;IRBND"><span>Durban</span></button></div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <table class="tbl_option mo" id="quick_SEA_PODCD2">
+                                                <tbody id="ArrivePort_Mo">
+                                                    <tr>
+                                                        <th colspan="3">ASIA</th>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><button type="button" value="HO CHI MINH CITY, VIETNAM;VNSGN"><span>Hochiminh</span></button></td> <!-- 인천일때  --><!--ㅇ-->
+                                                        <td><button type="button" value="HAIPHONG, VIETNAM;VNHPH"><span>Haiphong</span></button></td> <!-- 인천일때  --><!--ㅇ-->
+                                                        <td><button type="button" value="DANANG, VIETNAM;VNHPHK"><span>Danang</span></button></td><!--ㅇ-->
+                                                    </tr>
+                                                    <tr>
+                                                        <td><button type="button" value="BANGKOK, THAILAND;THBKK"><span>Bangkok</span></button></td><!--ㅇ-->
+                                                        <td><button type="button" value="LAEM CHABANG, THAILAND;THLCH"><span>Laem Chabang</span></button></td>
+                                                        <td><button type="button" value="HONG KONG;HKHKG"><span>Hongkong</span></button></td> <!-- 인천일때  --><!--ㅇ-->
+                                                    </tr>
+                                                    <tr>
+                                                        <td><button type="button" value="SHEKOU, CHINA;CNSHK"><span>Shekou</span></button></td><!--ㅇ-->
+                                                        <td><button type="button" value="JAKARTA, INDONESIA;IDJKT"><span>Jakarta</span></button></td><!--ㅇ-->
+                                                        <td><button type="button" value="SURABAYA, INDONESIA;IDSUB"><span>Surabaya</span></button></td><!--ㅇ-->
+                                                    </tr>
+                                                    <tr>
+                                                        <td><button type="button" value="VLADIVOSTOK, RUSSIA;RUVVO"><span>Vladivostok</span></button></td><!--ㅇ-->
+                                                        <td><button type="button" value="KARACHI, PAKISTAN;PKKHI"><span>Karachi</span></button></td><!--ㅇ-->
+                                                        <td><button type="button" value="CHITTAGONG, BANGLADESH;BDCGP"><span>Chattogram</span></button></td><!--ㅇ-->
+                                                    </tr>
+                                                    <tr>
+                                                        <td><button type="button" value="COLOMBO, SRI LANKA;CMB"><span>Colombo</span></button></td><!--ㅇ-->
+                                                        <td><button type="button" value="SINGAPORE;SGSIN"><span>Singapore</span></button></td><!--ㅇ-->
+                                                        <td><button type="button" value="SIHANOUKVILLE, CAMBODIA;KHSIH"><span>Sihanoukville</span></button></td><!--ㅇ-->
+                                                    </tr>
+                                                    <tr>
+                                                        <td><button type="button" value="MANILA, PHILIPPINES;PHMNL"><span>Manila</span></button></td><!--ㅇ-->
+                                                    </tr>
+                                                    <tr>
+                                                        <th colspan="3">1ASIA</th>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><button type="button" value="KEELUNG,TAIWAN;TWKEL"><span>Keelung</span></button></td><!--ㅇ-->
+                                                        <td><button type="button" value="KAOHSIUNG, TAIWAN;TWKHH"><span>Kaoshiung</span></button></td><!--ㅇ-->
+                                                        <td><button type="button" value="TAICHUNG, TAIWAN;TWTXG"><span>Taichung</span></button></td><!--ㅇ-->
+                                                    </tr>
+                                                    <tr>
+                                                        <td><button type="button" value="PORT KELANG, MALAYSIA;MYPKG"><span>Port Kelang</span></button></td><!--ㅇ-->
+                                                        <td><button type="button" value="PENANG (GEORGETOWN), MALAYSIA;MYPEN"><span>Penang</span></button></td><!--ㅇ-->
+                                                        <td><button type="button" value="CHENNAI (EX MADRAS), INDIA;INMAA"><span>Chennai</span></button></td><!--ㅇ-->
+                                                    </tr>
+                                                    <tr>
+                                                        <td><button type="button" value="KATTUPALLI, INDIA;INKAT"><span>Kattupalli</span></button></td><!--ㅇ-->
+                                                        <td><button type="button" value="JAWAHARLAL NEHRU (NHAVA SHEVA), INDIA;INNSA"><span>Nhava Sheva</span></button></td><!--ㅇ-->
+                                                        <td></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th colspan="3">CHINA</th>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><button type="button" value="SHANGHAI, CHINA;CNSHA"><span>Shanghai</span></button></td> <!-- 인천일때  --><!--ㅇ-->
+                                                        <td><button type="button" value="XINGANG, CHINA;CNTXG"><span>Xingang</span></button></td> <!-- 인천일때  --><!--ㅇ-->
+                                                        <td><button type="button" value="QINGDAO, CHINA;CNTAO"><span>Qingdao</span></button></td> <!-- 인천일때  --><!--ㅇ-->
+                                                    </tr>
+                                                    <tr>
+                                                        <td><button type="button" value="DALI, CHINA;CNDLC"><span>Dalian</span></button></td> <!-- 인천일때  --><!--ㅇ-->
+                                                        <td><button type="button" value="NINGBO, CHINA;CNNGB"><span>Ningbo</span></button></td> <!-- 인천일때  --><!--ㅇ-->
+                                                        <td><button type="button" value="XIAMEN, CHINA;CNXMN"><span>Xiamen</span></button></td><!--ㅇ-->
+                                                    </tr>
+                                                    <tr>
+                                                        <td><button type="button" value="NANJING, CHINA;CNNKG"><span>Nanjing</span></button></td><!--ㅇ-->
+                                                        <td><button type="button" value="YANTAI, CHINA;CNYNT"><span>Yantai</span></button></td> <!-- 인천일때  --><!--ㅇ-->
+                                                        <td><button type="button" value="QINGDAO, CHINA;CNTAO"><span>Qingdao-Ferry</span></button></td> <!-- 인천일때  --><!--ㅇ-->
+                                                    </tr>
+                                                    <tr>
+                                                        <td><button type="button" value="WEIHAI, CHINA;CNWEI"><span>Weihai</span></button></td> <!-- 인천일때  --><!--ㅇ-->
+                                                        <td><button type="button" value="WEIHAI, CHINA;CNWEI"><span>Weihai-Ferry</span></button></td> <!-- 인천일때  --><!--ㅇ-->
+                                                        <td></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th colspan="3">JAPAN</th>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><button type="button" value="TOKYO, JAPAN;JPTYO"><span>Tokyo</span></button></td><!--ㅇ-->
+                                                        <td><button type="button" value="YOKOHAMA, JAPAN;JPYOK"><span>Yokohama</span></button></td><!--ㅇ-->
+                                                        <td><button type="button" value="NAGOYA, AICHI;JPNGO"><span>Nagoya</span></button></td><!--ㅇ-->
+                                                    </tr>
+                                                    <tr>
+                                                        <td><button type="button" value="OSAKA, JAPAN;JPOSA"><span>Osaka</span></button></td><!--ㅇ-->
+                                                        <td><button type="button" value="KOBE, JAPAN;JPUKB"><span>Kobe</span></button></td><!--ㅇ-->
+                                                        <td><button type="button" value="MOJI/KITAKYUSHU, JAPAN;JPMOJ"><span>Moji</span></button></td><!--ㅇ-->
+                                                    </tr>
+                                                    <tr>
+                                                        <td><button type="button" value="HAKATA/FUKUOKA, JAPAN;JPHKT"><span>Hakata</span></button></td><!--ㅇ-->
+                                                        <td></td>
+                                                        <td></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th colspan="3">EUROPE</th>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><button type="button" value="HAMBURG, GERMANY;DEHAM"><span>Hamburg</span></button></td><!--ㅇ-->
+                                                        <td><button type="button" value="SOUTHAMPTON, UNITED KINGDOM;GBSOU"><span>Southampton</span></button></td><!--ㅇ-->
+                                                        <td><button type="button" value="ROTTERDAM, NETHERLANDS;NLRTM"><span>Rotterdam/Antwerp</span></button></td><!--ㅇ-->
+                                                    </tr>
+                                                    <tr>
+                                                        <td><button type="button" value="PRAGUE,  CZECH, REP.;PRG"><span>Prague</span></button></td><!--ㅇ-->
+                                                        <td><button type="button" value="BUDAPEST, HUNGARY;HUBUD"><span>Budapest</span></button></td><!--ㅇ-->
+                                                        <td></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th colspan="3">MEDSEA</th>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><button type="button" value="HAYDARPASA, TURKEY;TRHAY"><span>Haydarpasa</span></button></td><!--ㅇ-->
+                                                        <td><button type="button" value="AMBARLI, TURKEY;TRAMB"><span>Ambarli(Kumport)</span></button></td><!--ㅇ-->
+                                                        <td><button type="button" value="MARSEILLE, FRANCE;FRMRS"><span>FOS(Marseille)</span></button></td><!--ㅇ-->
+                                                    </tr>
+                                                    <tr>
+                                                        <td><button type="button" value="GENOA, ITALY;ITGOA"><span>Genoa</span></button></td><!--ㅇ-->
+                                                        <td><button type="button" value="ASHDOD, ISRAEL;ILASH"><span>Ashdod</span></button></td><!--ㅇ-->
+                                                        <td><button type="button" value="BARCELONA, SPAIN;ESBCN"><span>Barcelona</span></button></td><!--ㅇ-->
+                                                    </tr>
+                                                    <tr>
+                                                        <td><button type="button" value="VALENCIA, SPAIN;ESVLC"><span>Valencia</span></button></td><!--ㅇ-->
+                                                        <td><button type="button" value="PIRAEUS, GREECE;GRPIR"><span>Piraeus</span></button></td><!--ㅇ-->
+                                                        <td><button type="button" value="SINES, PORTUGAL;PTSIE"><span>Sines</span></button></td><!--ㅇ-->
+                                                    </tr>
+                                                    <tr>
+                                                        <th colspan="3">MID-EAST</th>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><button type="button" value="DUBAI,UNITED ARAB EMIRATES;AEDXB"><span>Dubai</span></button></td><!--ㅇ-->
+                                                        <td><button type="button" value="EL ISKANDARIYA (= ALEXANDRIA), EGYPT;EGALY"><span>Alexandria</span></button></td><!--ㅇ-->
+                                                        <td></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th colspan="3">NORTH AMERICA</th>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><button type="button" value="LONG BEACH, U.S.A.;USLGB"><span>Long Beach</span></button></td><!--ㅇ-->
+                                                        <td><button type="button" value="NEW YORK, U.S.A.;USNYC"><span>New York</span></button></td><!--ㅇ-->
+                                                        <td><button type="button" value="AUCKLAND, NEW ZEALAND;NZAKL"><span>Oakland</span></button></td><!--ㅇ-->
+                                                    </tr>
+                                                    <tr>
+                                                        <td><button type="button" value="SEATTLE, U.S.A.;USSEA"><span>Seattle</span></button></td><!--ㅇ-->
+                                                        <td><button type="button" value="CHICAGO,IL U.S.A.;ORD"><span>Chicago</span></button></td><!--ㅇ-->
+                                                        <td><button type="button" value="VANCOUVER,BC CANADA;YVR"><span>Vancouver</span></button></td><!--ㅇ-->
+                                                    </tr>
+                                                    <tr>
+                                                        <td><button type="button" value="TORONTO,OT CANADA;YYZ"><span>Toronto</span></button></td><!--ㅇ-->
+                                                        <td><button type="button" value="MONTREAL, CANADA;CAMTR"><span>Montreal</span></button></td><!--ㅇ-->
+                                                        <td></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th colspan="3">LATIN AMERICA</th>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><button type="button" value="COLON FREE ZONE, PANAMA;PACFZ"><span>Colon Free Zone</span></button></td><!--ㅇ-->
+                                                        <td><button type="button" value="CAUCEDO, DOMINICAN REPUBLIC;DOCAU"><span>Caucedo</span></button></td><!--ㅇ-->
+                                                        <td><button type="button" value="MAZANILLO, MEXICO;MXZLO"><span>Manzanillo</span></button></td><!--ㅇ-->
+                                                    </tr>
+                                                    <tr>
+                                                        <td><button type="button" value="BUENAVENTURA, COLOMBIA;COBUN"><span>Buenaventura</span></button></td><!--ㅇ-->
+                                                        <td><button type="button" value="GUATEMALA CITY, GUATEMALA;JPNGO"><span>Guatemala City</span></button></td><!--ㅇ-->
+                                                        <td><button type="button" value="SAN JOSE, COSTA RICA;CRSJO"><span>San Jose</span></button></td><!--ㅇ-->
+                                                    </tr>
+                                                    <tr>
+                                                        <td><button type="button" value="MANAGUA, NICARAGUA;NIMGA"><span>Managua</span></button></td><!--ㅇ-->
+                                                        <td><button type="button" value="CALLAO, PERU;PECLL"><span>Callao</span></button></td><!--ㅇ-->
+                                                        <td><button type="button" value="VALPARAISO, CHILE;CLVAP"><span>Valparaiso</span></button></td><!--ㅇ-->
+                                                    </tr>
+                                                    <tr>
+                                                        <td><button type="button" value="IQUIQUE, CHILE;CLIQQ"><span>Iquique</span></button></td><!--ㅇ-->
+                                                        <td><button type="button" value="GUAYAQUIL, ECUADOR;ECGYE"><span>Guayaquil</span></button></td><!--ㅇ-->
+                                                        <td><button type="button" value="SANTOS, BRAZIL;BRSSZ"><span>Santos</span></button></td><!--ㅇ-->
+                                                    </tr>
+                                                    <tr>
+                                                        <td><button type="button" value="ITAJAI, BRAZIL;BRITJ"><span>Itajai</span></button></td><!--ㅇ-->
+                                                        <td><button type="button" value="BUENOS AIRES, ARGENTINA;ARBUE"><span>Buenos Aires</span></button></td><!--ㅇ-->
+                                                        <td></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th colspan="3">Melbourne</th>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><button type="button" value="MELBOURNE, AUSTRALIA;AUMEL"><span>Melbourne</span></button></td><!--ㅇ-->
+                                                        <td><button type="button" value="SYDNEY, AUSTRALIA;AUSYD"><span>Sydney</span></button></td><!--ㅇ-->
+                                                        <td><button type="button" value="MELBOURNE, AUSTRALIA;AUMEL"><span>Brisbane</span></button></td><!--ㅇ-->
+                                                    </tr>
+                                                    <tr>
+                                                        <td><button type="button" value="AUCKLAND, NEW ZEALAND;NZAKL"><span>Auckland</span></button></td><!--ㅇ-->
+                                                        <td></td>
+                                                        <td></td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                                <button type="button" class="btns icon close" onclick="selectPopClose('#select_SEA_pop02');"><span class="blind">닫기</span></button>
+                            </div>
+                        </div>
+                        <div class="sch-item box2 d-none item10">
+                            <div class="input-box int_box">
+                                <input type="text" class="input_for px-5" placeholder="Booking No" id="select_BKDetail_BkgNo" autocomplete="off" maxlength="20" />
+                                <button type="button" class="delete-btn" name="del_POD"><i class="xi-close-thin"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="btn-bx">
+                        <a class="more-btn"></a>
+                    </div>
+                </div>
+                <!-- E : (search-bar)-->
+                <div id="tab_area">
+                    <!-- S : (내용--pc)-->
+                    <div class="row-scrollwrap d-none d-md-block" data-show="800">
+                        @*<p class="row-scrollwrap__txt"><i class="xi-info-o"></i>가로로 스크롤 하여 보실 수 있습니다.</p>*@
+                        <div class="row-scrollwrap__scroll">
+                            <div class="row-scrollwrap__content">
+                                <!-- S: 스크롤 할 컨텐츠 -->
+                                <table class="table sch-table bk-sch-table">
+                                    <colgroup>
+                                        <col width="1%">
+                                        <col width="1%">
+                                        <col width="5%">
+                                        <col width="5%">
+                                        <col width="5%">
+                                        <col width="5%">
+                                        <col width="2%">
+                                        <col width="1%">
+                                        <col width="1%">
+                                        <col width="1%">
+                                    </colgroup>
+                                    <thead id="BookingList_orderby">
+                                        <tr>
+                                            <th>Booking&nbsp;No/Status</th>
+                                            @*<th>Booking No</th>*@
+                                            <th>
+                                                <div class="title-ctrl">
+                                                    <div class="tit orderby">Carrier</div>
+                                                    <button type="button" class="btn-arrow" value="LINE_CD"></button>
+                                                </div>
+                                            </th>
+                                            <th>
+                                                <div class="title-ctrl">
+                                                    <div class="tit orderby">Vessel</div>
+                                                    <button type="button" class="btn-arrow" value="VSL_VOY"></button>
+                                                </div>
+                                            </th>
+                                            <th>
+                                                <div class="title-ctrl">
+                                                    <div class="tit orderby">Departure</div>
+                                                    <button type="button" class="btn-arrow" value="ETD"></button>
+                                                </div>
+                                            </th>
+                                            <th>
+                                                <div class="title-ctrl">
+                                                    <div class="tit orderby">Arrival</div>
+                                                    <button type="button" class="btn-arrow" value="ETA"></button>
+                                                </div>
+                                            </th>
+                                            <th>
+                                                <div class="title-ctrl">
+                                                    <div class="tit orderby">CBM</div>
+                                                    <button type="button" class="btn-arrow" value="MSRMT"></button>
+                                                </div>
+                                            </th>
+                                            <th>
+                                                <div class="title-ctrl">
+                                                    <div class="tit">실화주</div>
+                                                    @*<button type="button" class="btn-arrow" value="CARGO"></button>*@
+                                                </div>
+                                            </th>
+                                            <th>Info</th>
+                                            <th></th>
+                                            <th></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="BK_Result_AREA_PC">
+                                        <tr>
+                                            <td colspan="10" class="no_data"></td>
+                                        </tr>
+                            @*<tr class="sch_row">
+                                <td class="txt txt--b">승인</td>
+                                <td class="txt font-sub font-weight-medium">TestBookin</td>
+                                <td class="txt font-sub font-weight-medium"><img src="~/Images/logo/SSGM.png" /></td>
+                                <td class="txt font-sub font-weight-medium">KMTC ULSAN 2022S</td>
+                                <td class="txt font-weight-medium">2020.10.29 (목) Busan, Korea</td>
+                                <td class="txt font-weight-medium">2020.10.29 (목) Busan, Korea</td>
+                                <td class="txt font-sub font-weight-medium">1</td>
+                                <td class="txt font-sub font-weight-medium">DAP</td>
+                                <td class="txt">
+                                    <a href="@Url.Action("Regist","Booking")" name="btn_BkgDetail_Search" class="bk-sch mb-1 detail">상세</a>
+                                    <button type="button" class="text-gray-6 bk-sch">Cancel</button>
+                                </td>
+                                <td class="txt">
+                                    <a class="btn_rel"><i class="xi-plus"></i></a>
+                                </td>
+                            </tr>
+                            <tr class="related_info" id="row_1">
+                                <td colspan="10">
+                                    <ul class="etc_info">
+                                        <li class="item">
+                                            <em>반입지 : BICT</em>
+                                        </li>
+                                        <li class="item">
+                                            <em>담당자 : 오승택</em>
+                                        </li>
+                                        <li class="item">
+                                            <em>비고 : 뼈에 금갔음</em>
+                                        </li>
+                                    </ul>
+                                </td>
+                            </tr>
+                            <tr class="sch_row">
+                                <td class="txt txt--g">요청</td>
+                                <td class="txt font-sub font-weight-medium">TestBookin</td>
+                                <td class="txt font-sub font-weight-medium"><img src="~/Images/logo/SSGM.png" /></td>
+                                <td class="txt font-sub font-weight-medium">KMTC ULSAN 2022S</td>
+                                <td class="txt font-weight-medium">2020.10.29 (목) Busan, Korea</td>
+                                <td class="txt font-weight-medium">2020.10.29 (목) Busan, Korea</td>
+                                <td class="txt font-sub font-weight-medium">1</td>
+                                <td class="txt font-sub font-weight-medium">DAP</td>
+                                <td class="txt">
+                                    <a href="@Url.Action("Regist","Booking")" name="btn_BkgDetail_Search" class="bk-sch mb-1 detail">상세</a>
+                                    <button type="button" class="text-gray-6 bk-sch">Cancel</button>
+                                </td>
+                                <td class="txt">
+                                    <a class="btn_rel"><i class="xi-plus"></i></a>
+                                </td>
+                            </tr>
+                            <tr class="related_info" id="row_1">
+                                <td colspan="10">
+                                    <ul class="etc_info">
+                                        <li class="item">
+                                            <em>반입지 : BICT</em>
+                                        </li>
+                                        <li class="item">
+                                            <em>담당자 : 천승권</em>
+                                        </li>
+                                        <li class="item">
+                                            <em>비고 : 코인보다 감기걸림</em>
+                                        </li>
+                                    </ul>
+                                </td>
+                            </tr>
+                            <tr class="sch_row">
+                                <td class="txt txt--r">취소</td>
+                                <td class="txt font-sub font-weight-medium">TestBookin</td>
+                                <td class="txt font-sub font-weight-medium"><img src="~/Images/logo/SSGM.png" /></td>
+                                <td class="txt font-sub font-weight-medium">KMTC ULSAN 2022S</td>
+                                <td class="txt font-weight-medium">2020.10.29 (목) Busan, Korea</td>
+                                <td class="txt font-weight-medium">2020.10.29 (목) Busan, Korea</td>
+                                <td class="txt font-sub font-weight-medium">1</td>
+                                <td class="txt font-sub font-weight-medium">DAP</td>
+                                <td class="txt">
+                                    <a href="@Url.Action("Regist","Booking")" name="btn_BkgDetail_Search" class="bk-sch mb-1 detail">상세</a>
+                                    <button type="button" class="text-gray-6 bk-sch">Cancel</button>
+                                </td>
+                                <td class="txt">
+                                    <a class="btn_rel"><i class="xi-plus"></i></a>
+                                </td>
+                            </tr>
+                            <tr class="related_info" id="row_1">
+                                <td colspan="10">
+                                    <ul class="etc_info">
+                                        <li class="item">
+                                            <em>반입지 : BICT</em>
+                                        </li>
+                                        <li class="item">
+                                            <em>담당자 : 김은빈</em>
+                                        </li>
+                                        <li class="item">
+                                            <em>비고 : 놀쟈</em>
+                                        </li>
+                                    </ul>
+                                </td>
+                            </tr>*@
+                                    </tbody>
+                                </table>
+                                <!-- E: 스크롤 할 컨텐츠 -->
+                            </div>
+                        </div>
+                    </div>
+                    <!-- E : (내용--pc)-->
+                    <!-- S : (내용--모바일)-->
+                    <div class="m-info d-block d-md-none" id="BK_Result_AREA_MO">
+                        <ul class="info-box py-2 px-1">
+                            <li class="no_data col-12 py-6"></li>
+                            @* <li class="info-txt info-txt--full">
+                        <p class="title">Status</p>
+                        <p class="txt--b des">승인</p>
+                    </li>
+                    <li class="info-txt info-txt--full">
+                        <p class="title">Booking No</p>
+                        <p class="text-gray-6 common-text--14 des">TestBookin</p>
+                    </li>
+                    <li class="info-txt info-txt--full">
+                        <p class="title">Carrier</p>
+                        <p class="des des--bl"><img src="~/Images/logo/SSGM.png" /></p>
+                    </li>
+                    <li class="info-txt info-txt--full">
+                        <p class="title">Vessel</p>
+                        <p class="text-gray-6 common-text--14 des">KMTC ULSAN 2022S</p>
+                    </li>
+                    <li class="info-txt info-txt--full">
+                        <p class="title">Departure</p>
+                        <p class="text-gray-6 common-text--14 des">2020.10.29 (목) Busan, Korea</p>
+                    </li>
+                    <li class="info-txt info-txt--full">
+                        <p class="title">Arrival</p>
+                        <p class="text-gray-6 common-text--14 des">2020.10.29 (목) Busan, Korea</p>
+                    </li>
+                    <li class="info-txt info-txt--full">
+                        <p class="title">Cargo</p>
+                        <p class="text-gray-6 common-text--14 des">40 ft HC x4</p>
+                    </li>
+                    <li class="info-txt info-txt--full">
+                        <p class="title">Price</p>
+                        <p class="text-gray-6 common-text--14 des">USD 190</p>
+                    </li>
+                    <li class="info-txt info-txt--full">
+                        <a href="@Url.Action("Regist","Booking")" class="bk-sch">상세</a>
+                    </li>
+                    <li class="info-txt info-txt--full related_info">
+                        <ul class="etc_info">
+                            <li class="item">
+                                <em>반입지 : BICT</em>
+                            </li>
+                            <li class="item">
+                                <em>담당자 : </em>
+                            </li>
+                            <li class="item">
+                                <em>비고 : </em>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+                <ul class="info-box py-2 px-1">
+                    <li class="no_data col-12 py-6"></li>
+                    <li class="info-txt info-txt--full">
+                        <p class="title">Status</p>
+                        <p class="txt--b des">승인</p>
+                    </li>
+                    <li class="info-txt info-txt--full">
+                        <p class="title">Booking No</p>
+                        <p class="text-gray-6 common-text--14 des">TestBookin</p>
+                    </li>
+                    <li class="info-txt info-txt--full">
+                        <p class="title">Carrier</p>
+                        <p class="des des--bl"><img src="~/Images/logo/SSGM.png" /></p>
+                    </li>
+                    <li class="info-txt info-txt--full">
+                        <p class="title">Vessel</p>
+                        <p class="text-gray-6 common-text--14 des">KMTC ULSAN 2022S</p>
+                    </li>
+                    <li class="info-txt info-txt--full">
+                        <p class="title">Departure</p>
+                        <p class="text-gray-6 common-text--14 des">2020.10.29 (목) Busan, Korea</p>
+                    </li>
+                    <li class="info-txt info-txt--full">
+                        <p class="title">Arrival</p>
+                        <p class="text-gray-6 common-text--14 des">2020.10.29 (목) Busan, Korea</p>
+                    </li>
+                    <li class="info-txt info-txt--full">
+                        <p class="title">Cargo</p>
+                        <p class="text-gray-6 common-text--14 des">40 ft HC x4</p>
+                    </li>
+                    <li class="info-txt info-txt--full">
+                        <p class="title">Price</p>
+                        <p class="text-gray-6 common-text--14 des">USD 190</p>
+                    </li>
+                    <li class="info-txt info-txt--full">
+                        <a href="@Url.Action("Regist","Booking")" class="bk-sch">상세</a>
+                    </li>
+                    <li class="info-txt info-txt--full related_info">
+                        <ul class="etc_info">
+                            <li class="item">
+                                <em>반입지 : BICT</em>
+                            </li>
+                            <li class="item">
+                                <em>담당자 : </em>
+                            </li>
+                            <li class="item">
+                                <em>비고 : </em>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+                <ul class="info-box py-2 px-1">
+                    <li class="no_data col-12 py-6"></li>
+                    <li class="info-txt info-txt--full">
+                        <p class="title">Status</p>
+                        <p class="txt--b des">승인</p>
+                    </li>
+                    <li class="info-txt info-txt--full">
+                        <p class="title">Booking No</p>
+                        <p class="text-gray-6 common-text--14 des">TestBookin</p>
+                    </li>
+                    <li class="info-txt info-txt--full">
+                        <p class="title">Carrier</p>
+                        <p class="des des--bl"><img src="~/Images/logo/SSGM.png" /></p>
+                    </li>
+                    <li class="info-txt info-txt--full">
+                        <p class="title">Vessel</p>
+                        <p class="text-gray-6 common-text--14 des">KMTC ULSAN 2022S</p>
+                    </li>
+                    <li class="info-txt info-txt--full">
+                        <p class="title">Departure</p>
+                        <p class="text-gray-6 common-text--14 des">2020.10.29 (목) Busan, Korea</p>
+                    </li>
+                    <li class="info-txt info-txt--full">
+                        <p class="title">Arrival</p>
+                        <p class="text-gray-6 common-text--14 des">2020.10.29 (목) Busan, Korea</p>
+                    </li>
+                    <li class="info-txt info-txt--full">
+                        <p class="title">Cargo</p>
+                        <p class="text-gray-6 common-text--14 des">40 ft HC x4</p>
+                    </li>
+                    <li class="info-txt info-txt--full">
+                        <p class="title">Price</p>
+                        <p class="text-gray-6 common-text--14 des">USD 190</p>
+                    </li>
+                    <li class="info-txt info-txt--full">
+                        <a href="@Url.Action("Regist","Booking")" class="bk-sch">상세</a>
+                    </li>
+                    <li class="info-txt info-txt--full related_info">
+                        <ul class="etc_info">
+                            <li class="item">
+                                <em>반입지 : BICT</em>
+                            </li>
+                            <li class="item">
+                                <em>담당자 : </em>
+                            </li>
+                            <li class="item">
+                                <em>비고 : </em>
+                            </li>
+                        </ul>
+                    </li>*@
+                        </ul>
+                    </div>
+                    <!-- E : (내용--모바일)-->
+                    <!-- S : 페이징 -->
+                </div>
+                <div class="paging-area" id="Paging_Area" style="display:none">
+                    @*<ul>
+                        <li>
+                            <a href="javascript:;" class="prev-first"><span>To the front</span></a>
+                        </li>
+                        <li>
+                            <a href="javascript:;" class="prev"><span>Before</span></a>
+                        </li>
+                        <li>
+                            <a href="javascript:;" class="active">1<span></span></a>
+                        </li>
+                        <li>
+                            <a href="javascript:;">2<span></span></a>
+                        </li>
+                        <li>
+                            <a href="javascript:;">3<span></span></a>
+                        </li>
+                        <li>
+                            <a href="javascript:;" class="next"><span>Next</span></a>
+                        </li>
+                        <li>
+                            <a href="javascript:;" class="next-last"><span>At the very end</span></a>
+                        </li>
+                    </ul>*@
+                </div>
+                <!-- E : 페이징 -->
+            </div>
+        </div>
+    </div>
+
+    <div class="layer_zone alert_type" id="BkgList_Confirm">
+        <div class="layer_wrap">
+            <div class="layer_inwrap">
+                <article class="layer_cont">
+                    <div class="layer_tit">
+                        <h1 class="tit"></h1>
+                    </div>
+                    <div class="alert_cont">
+                        <div class="inner">
+                            데이터가 삭제 되었습니다.
+                        </div>
+                    </div>
+                    <div class="btn_w">
+                        <button type="button" class="btns radius cr2 loginChk" id="BkgList_Confirm_cencel">취소</button>
+                        <button type="button" class="btns radius cr1 loginChk" id="BkgList_Confirm_confirm">확인</button>
+                    </div>
+                </article>
+            </div>
+        </div>
+    </div>
+
+    @Scripts.Render("~/Scripts/js/Booking/Inquiry.js")
+}

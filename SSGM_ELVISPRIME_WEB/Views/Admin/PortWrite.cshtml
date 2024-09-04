@@ -1,0 +1,372 @@
+﻿@{
+    ViewBag.Title = "admin";
+    ViewBag.Sub = "member";
+
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+@section stMain {
+    @*<script type="text/javascript" src="/Scripts/admin/_Memberwrite.js"></script>*@
+
+    @{
+        if (ViewBag.PORT_NO != null)
+        {
+            <input type="hidden" id="View_PORT_NO" value="@ViewBag.PORT_NO" />
+            <input type="hidden" id="View_START_PORT" value="@ViewBag.START_PORT" />
+            <input type="hidden" id="View_BOUND_PORT" value="@ViewBag.BOUND_PORT" />
+            <input type="hidden" id="View_LOC_CD" value="@ViewBag.LOC_CD" />
+            <input type="hidden" id="View_LOC_NM" value="@ViewBag.LOC_NM" />
+            <input type="hidden" id="View_USE_YN" value="@ViewBag.USE_YN" />
+            <input type="hidden" id="View_BKG_YN" value="@ViewBag.BKG_YN" />
+        }
+        else
+        {
+            <input type="hidden" id="View_MEMB_NO" value="" />
+        }
+
+
+    }
+
+    <div class="st-main">
+        <div class="st-header">
+            <div class="fluid-cols">
+                <div class="min-col">
+                    <div class="st-header__menu">
+                        <button class="btn st-sidebar__toggle"><i class="fa fa-bars"></i></button>
+                    </div>
+                </div>
+                <div class="expand-col text-ellipsis">
+                    <div class="st-header__title"><span>포트 정보</span></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="st-content mb50 max_width">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="st-panel">
+                            <div class="st-panel__cont">
+                                <div class="st-panel__content ">
+                                    <form id="insert_form" name="insert_form" method="post" enctype="multipart/form-data">
+
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <div class="panel panel-default">
+                                                    <div class="panel-heading">포트 정보 입력</div>
+                                                    <!-- panel-body -->
+                                                    <div class="panel-body">
+                                                        <div class="form-group col-md-12">
+                                                            <div class="col-md-4 pd0">
+                                                                <label>출발지</label>
+                                                                @{
+                                                                    if (ViewBag.START_PORT != null)
+                                                                    {
+                                                                        <select class="form-control select" id="select_Start" readonly>
+                                                                            <option value="KRPUS">부산</option>
+                                                                            <option value="KRINC">인천</option>
+                                                                        </select>
+                                                                        <script>
+                                                                            $("#select_Start").val("@ViewBag.START_PORT").prop("selected", true);
+                                                                        </script>
+                                                                    }
+                                                                    else
+                                                                    {
+                                                                        <select class="form-control select" id="select_Start" readonly>
+                                                                            <option value="KRPUS">부산</option>
+                                                                            <option value="KRINC">인천</option>
+                                                                        </select>
+                                                                    }
+                                                                }
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group col-md-12">
+                                                            <div class="col-md-4 pd0">
+                                                                <label>바운드</label>
+                                                                @{
+                                                                    if (ViewBag.BOUND_PORT != null)
+                                                                    {
+                                                                        <select class="form-control select" id="select_Bound_Busan" display="none">
+                                                                            <option value="EAST ASIA">EAST ASIA</option>
+                                                                            <option value="WEST ASIA">WEST ASIA</option>
+                                                                            <option value="CHINA">CHINA</option>
+                                                                            <option value="JAPAN">JAPAN</option>
+                                                                            <option value="EUROPE">EUROPE</option>
+                                                                            <option value="MEDSEA">MEDSEA</option>
+                                                                            <option value="MID-EAST">MID-EAST</option>
+                                                                            <option value="NORTH AMERICA">NORTH AMERICA</option>
+                                                                            <option value="LATIN AMERICA">LATIN AMERICA</option>
+                                                                            <option value="OCEANIA">OCEANIA</option>
+                                                                            <option value="AFRICA">AFRICA</option>
+                                                                        </select>
+
+                                                                        <select class="form-control select" id="select_Bound_Incheon" display="none">
+                                                                            <option value="ASIA">ASIA</option>
+                                                                            <option value="CHINA">CHINA</option>
+                                                                        </select>
+
+                                                                        <script>
+
+                                                                            if ("@ViewBag.START_PORT" == "KRPUS") {
+                                                                                $("#select_Bound_Busan").show();
+                                                                                $("#select_Bound_Incheon").hide();
+                                                                                $("#select_Bound_Busan").val("@ViewBag.BOUND_PORT").prop("selected", true);
+                                                                            } else {
+                                                                                $("#select_Bound_Busan").hide();
+                                                                                $("#select_Bound_Incheon").show();
+                                                                                $("#select_Bound_Incheon").val("@ViewBag.BOUND_PORT").prop("selected", true);
+                                                                            }
+                                                                        </script>
+                                                                    }
+                                                                    else
+                                                                    {
+                                                                        <select class="form-control select" id="select_Bound_Busan" display="none">
+                                                                            <option value="EAST ASIA">EAST ASIA</option>
+                                                                            <option value="WEST ASIA">WEST ASIA</option>
+                                                                            <option value="CHINA">CHINA</option>
+                                                                            <option value="JAPAN">JAPAN</option>
+                                                                            <option value="EUROPE">EUROPE</option>
+                                                                            <option value="MEDSEA">MEDSEA</option>
+                                                                            <option value="MID-EAST">MID-EAST</option>
+                                                                            <option value="NORTH AMERICA">NORTH AMERICA</option>
+                                                                            <option value="LATIN AMERICA">LATIN AMERICA</option>
+                                                                            <option value="OCEANIA">OCEANIA</option>
+                                                                            <option value="AFRICA">AFRICA</option>
+                                                                        </select>
+
+                                                                        <select class="form-control select" id="select_Bound_Incheon" display="none">
+                                                                            <option value="ASIA">ASIA</option>
+                                                                            <option value="CHINA">CHINA</option>
+                                                                        </select>
+
+
+                                                                    }
+                                                                }
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group col-md-12">
+                                                            <div class="col-md-4 pd0">
+                                                                <label>도착지 포트 코드</label>
+                                                                @{
+                                                                    if (ViewBag.LOC_CD != null)
+                                                                    {
+                                                                        <input class="form-control" id="select_PortCd" maxlength="5" value="@ViewBag.LOC_CD" readonly style="text-transform:uppercase">
+                                                                    }
+                                                                    else
+                                                                    {
+                                                                        <span class="btn-group pull-right" role="group" aria-label="...">
+                                                                            <a href="javascript:void(0);" type="button" class="btn btn-primary btn-xs" id="port_check"> 중복확인</a>
+                                                                        </span>
+                                                                        <input class="form-control" id="select_PortCd" maxlength="5" style="text-transform:uppercase">
+                                                                    }
+                                                                }
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group col-md-12">
+                                                            <div class="col-md-4 pd0">
+                                                                <label>도착지 포트명</label>
+                                                                @{
+                                                                    if (ViewBag.LOC_NM != null)
+                                                                    {
+                                                                        <input class="form-control" id="select_PortNm" value="@ViewBag.LOC_NM" style="text-transform:uppercase">
+                                                                    }
+                                                                    else
+                                                                    {
+                                                                        <input class="form-control" id="select_PortNm" style="text-transform:uppercase">
+                                                                    }
+                                                                }
+
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group col-md-12">
+                                                            <div class="col-md-4 pd0">
+                                                                <label>사용여부</label>
+                                                                @{
+                                                                    if (ViewBag.USE_YN != null)
+                                                                    {
+                                                                        <select class="form-control select" id="select_Use" readonly>
+                                                                            <option value="Y">사용</option>
+                                                                            <option value="N">미사용</option>
+                                                                        </select>
+                                                                        <script>
+                                                                            $("#select_Use").val("@ViewBag.USE_YN").prop("selected", true);
+                                                                        </script>
+                                                                    }
+                                                                    else
+                                                                    {
+                                                                        <select class="form-control select" id="select_Use" readonly>
+                                                                            <option value="Y">사용</option>
+                                                                            <option value="N">미사용</option>
+                                                                        </select>
+                                                                    }
+                                                                }
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group col-md-12">
+                                                            <div class="col-md-4 pd0">
+                                                                <label>부킹 여부</label>
+                                                                @{
+                                                                    if (ViewBag.BKG_YN != null)
+                                                                    {
+                                                                        <select class="form-control select" id="select_bkg" readonly>
+                                                                            <option value="Y">사용</option>
+                                                                            <option value="N">미사용</option>
+                                                                        </select>
+                                                                        <script>
+                                                                            $("#select_bkg").val("@ViewBag.BKG_YN").prop("selected", true);
+                                                                        </script>
+                                                                    }
+                                                                    else
+                                                                    {
+                                                                        <select class="form-control select" id="select_bkg" readonly>
+                                                                            <option value="Y">사용</option>
+                                                                            <option value="N">미사용</option>
+                                                                        </select>
+                                                                    }
+                                                                }
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <!-- /.panel-body -->
+                                                </div>
+                                                <!-- /.panel -->
+                                            </div>
+                                        </div>
+                                    </form>
+                                    <div class="mb20"></div>
+                                    <!--	/.기본 레이아웃	-->
+                                    <div class="row">
+                                        <div class="col-md-5 col-md-offset-5 paging">
+                                            @{
+                                                if (ViewBag.PORT_NO != null)
+                                                {
+                                                    <a href="javascript:void(0);" type="button" id="Modify_Port" class="btn btn-primary _btn_reg"><i class="fa fa-pencil-square-o"></i> 수정</a>
+                                                    @Html.Raw("&nbsp;")
+                                                    @Html.Raw("&nbsp;")
+                                                }
+                                                else
+                                                {
+                                                    <a href="javascript:void(0);" type="button" id="Insert_Port" class="btn btn-primary _btn_reg"><i class="fa fa-pencil-square-o"></i> 등록</a>
+                                                    @Html.Raw("&nbsp;")
+                                                    @Html.Raw("&nbsp;")
+                                                }
+                                            }
+                                            <a href="@Url.Action("Port", "Admin")" type="button" class="btn btn-primary _btn_list"><i class="fa fa-th-list"></i> 목록</a>
+                                            @Html.Raw("&nbsp;")
+                                            @Html.Raw("&nbsp;")
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="st-footer">
+            <div class="copyright">
+                Copyrightⓒ 관리자 모드. All right reserved.
+            </div>
+        </div>
+    </div>
+
+    <div class="layer_zone alert_type" id="Member_Confirm">
+        <div class="layer_wrap">
+            <div class="layer_inwrap">
+                <article class="layer_cont">
+                    <div class="layer_tit">
+                        <h1 class="tit"></h1>
+                    </div>
+                    <!-- alert_cont -->
+                    <div class="alert_cont">
+                        <div class="inner">
+                            데이터가 삭제 되었습니다.
+                        </div>
+                    </div>
+                    <!-- //alert_cont -->
+                    <!-- btn_w -->
+                    <div class="btn_w">
+                        <button type="button" class="btns radius cr2" id="Layer_Confirm_Cencel">취소</button>
+                        <button type="button" class="btns radius cr1" id="Layer_Confirm">확인</button>
+                    </div>
+                    <!-- //btn_w -->
+                </article>
+            </div>
+        </div>
+    </div>
+
+    <div class="layer_zone alert_type" id="layer_complete_alert">
+        <div class="layer_wrap">
+            <div class="layer_inwrap">
+                <article class="layer_cont">
+                    <div class="layer_tit">
+                        <h1 class="tit"></h1>
+                    </div>
+                    <!-- alert_cont -->
+                    <div class="alert_cont">
+                        <div class="inner">
+                            데이터가 삭제 되었습니다.
+                        </div>
+                    </div>
+                    <!-- //alert_cont -->
+                    <!-- btn_w -->
+                    <div class="btn_w">
+                        <button type="button" class="btns radius cr1 loginChk" id="btn_save_complete" onclick="layerClose('#alert01');">확인</button>
+                    </div>
+                    <!-- //btn_w -->
+                </article>
+            </div>
+        </div>
+    </div>
+
+    <div class="layer_zone alert_type" id="layer_complete_alert_modify">
+        <div class="layer_wrap">
+            <div class="layer_inwrap">
+                <article class="layer_cont">
+                    <div class="layer_tit">
+                        <h1 class="tit"></h1>
+                    </div>
+                    <!-- alert_cont -->
+                    <div class="alert_cont">
+                        <div class="inner">
+                            데이터가 삭제 되었습니다.
+                        </div>
+                    </div>
+                    <!-- //alert_cont -->
+                    <!-- btn_w -->
+                    <div class="btn_w">
+                        <button type="button" class="btns radius cr1 loginChk" id="btn_save_complete_modify" onclick="layerClose('#layer_complete_alert_modify');">확인</button>
+                    </div>
+                    <!-- //btn_w -->
+                </article>
+            </div>
+        </div>
+    </div>
+
+    <div class="layer_zone alert_type" id="layer_complete_alert_port">
+        <div class="layer_wrap">
+            <div class="layer_inwrap">
+                <article class="layer_cont">
+                    <div class="layer_tit">
+                        <h1 class="tit"></h1>
+                    </div>
+                    <!-- alert_cont -->
+                    <div class="alert_cont">
+                        <div class="inner">
+                            데이터가 삭제 되었습니다.
+                        </div>
+                    </div>
+                    <!-- //alert_cont -->
+                    <!-- btn_w -->
+                    <div class="btn_w">
+                        <button type="button" class="btns radius cr1 loginChk" id="btn_save_complete_port" onclick="layerClose('#layer_complete_alert_port');">확인</button>
+                    </div>
+                    <!-- //btn_w -->
+                </article>
+            </div>
+        </div>
+    </div>
+
+    @Scripts.Render("~/Scripts/js/Admin/_portwrite.js")
+}

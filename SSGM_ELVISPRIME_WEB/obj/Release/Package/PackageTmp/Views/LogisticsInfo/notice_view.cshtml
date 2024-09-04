@@ -1,0 +1,252 @@
+﻿@{
+    ViewBag.Title = "Company";
+    ViewBag.Sub = "notice_view";
+
+    Layout = "~/Views/Shared/_SubLayout.cshtml";
+
+    string setLang = "";
+    if (HttpContext.Current.Session["Language"] == null)
+    {
+        if (Request.Params["Language"] == null)
+        {
+            setLang = "KO";
+            HttpContext.Current.Session["Language"] = "KO";
+        }
+    }
+    else
+    {
+        if (Request.Params["Language"] == null)
+        {
+            setLang = HttpContext.Current.Session["Language"].ToString();
+        }
+        else
+        {
+            setLang = "EN";
+        }
+    }
+
+    if (string.IsNullOrEmpty(setLang))
+    {
+        setLang = "KO";
+    }
+}
+
+@section Container {
+    <script>
+            $('.lnb > li:nth-child(4)').addClass('on');
+            $('.lnb > li.on .sub_depth li:nth-child(1) a').addClass('on');
+    </script>
+    <!-- E : sub-nav : dropdown -->
+    <!-- S : Main -->
+    <main class="main sub-main" id="contents">
+        <section class="section">
+            <div class="container" style="padding-top:30px;">
+                <div class="sub_visual" id="Schedule">
+                    <div class="inner">
+                        <h4 class="subtitle">
+                            <span>
+                                Start Your Business<br />
+                                with <strong>FairConline</strong>
+                            </span>
+                        </h4>
+                    </div>
+                </div>
+                @*@{
+            foreach (var rowItem in Model)
+            {
+                if (@rowItem.FLAG == "VIEW")
+                {
+                    <div class="board_view">
+                        <div class="title_row">
+                            <div class="col">
+                                <h4 class="title">@Html.Raw(@rowItem.TITLE)</h4>
+                            </div>
+                            <div class="col etc">
+                                <span>@Html.Raw(@rowItem.WRITER)</span>
+                                <span>@Html.Raw(@rowItem.REGDT.Substring(0, 10))</span>
+                                <span>조회수 : @Html.Raw(@rowItem.CNT)</span>
+                            </div>
+                        </div>
+                        <div class="cont_row">
+                            @Html.Raw(@rowItem.CONTENT)
+                        </div>
+                        @{
+                            if (!string.IsNullOrEmpty(@rowItem.FILE) || !string.IsNullOrEmpty(@rowItem.FILE1) || !string.IsNullOrEmpty(@rowItem.FILE2))
+                            {
+                                <div class="cont_row">
+                                    첨부파일 :
+                                    <a href="@Url.Action("Download", "File", new { filename = @rowItem.FILE_NAME, rFilename = @rowItem.FILE })">@rowItem.FILE_NAME</a> &nbsp;&nbsp;
+                                    <a href="@Url.Action("Download", "File", new { filename = @rowItem.FILE_NAME1, rFilename = @rowItem.FILE1 })">@rowItem.FILE_NAME1</a> &nbsp;&nbsp;
+                                    <a href="@Url.Action("Download", "File", new { filename = @rowItem.FILE_NAME2, rFilename = @rowItem.FILE2 })">@rowItem.FILE_NAME2</a> &nbsp;&nbsp;
+                                </div>
+                            }
+                        }
+                    </div>
+                }
+            }
+        }*@
+            <div class="sub_cover">
+                <div class="fixed_in type2">
+                    <table class="table-view-01 txt-mt">
+                        <caption>
+                            <span class="hidden">상세 입니다.</span>
+                        </caption>
+                        <colgroup>
+                            <col width="90px" />
+                            <col width="*" />
+                        </colgroup>
+                        <tbody>
+                            @{
+                                foreach (var rowItem in Model)
+                                {
+                                    if (@rowItem.FLAG == "VIEW")
+                                    {
+                                        <tr>
+                                            <td colspan="2" class="clear-fix tit_box">
+                                                @{
+                                                    if (rowItem.TYPE == "0")
+                                                    {
+                                                        <p class="tit"><span class="type_t">공지사항</span>@Html.Raw(@rowItem.TITLE)</p>
+                                                    }
+                                                    else
+                                                    {
+                                                        <p class="tit"><span class="type_t">스케줄</span>@Html.Raw(@rowItem.TITLE)</p>
+                                                    }
+                                                }
+
+                                                <p class="tbl_detail_span mt_05">
+                                                    <span class="name">@Html.Raw(@rowItem.WRITER)</span>
+                                                    @{
+                                                        if (Html.Raw(@rowItem.EDITDT) != null)
+                                                        {
+                                                            <span class="date">@Html.Raw(@rowItem.REGDT.Split(' ')[0])</span>
+                                                        }
+                                                        else
+                                                        {
+                                                            <span class="date">@Html.Raw(@rowItem.EDITDT.Split(' ')[0])</span>
+                                                        }
+
+
+                                                    }
+                                                </p>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>첨부파일</td>
+                                            <td>
+                                                @{
+                                                    if (!string.IsNullOrEmpty(@rowItem.FILE))
+                                                    {
+                                                        <p class="addfile_txt"><a href="@Url.Action("Download", "File", new { filename = @rowItem.FILE_NAME, rFilename = @rowItem.FILE })">@rowItem.FILE_NAME</a> </p>
+                                                    }
+                                                    if (!string.IsNullOrEmpty(@rowItem.FILE1))
+                                                    {
+                                                        <p class="addfile_txt"><a href="@Url.Action("Download", "File", new { filename = @rowItem.FILE_NAME1, rFilename = @rowItem.FILE1 })">@rowItem.FILE_NAME1</a> </p>
+                                                    }
+                                                    if (!string.IsNullOrEmpty(@rowItem.FILE2))
+                                                    {
+                                                        <p class="addfile_txt"><a href="@Url.Action("Download", "File", new { filename = @rowItem.FILE_NAME2, rFilename = @rowItem.FILE2 })">@rowItem.FILE_NAME2</a> </p>
+                                                    }
+                                                }
+                                            </td>
+                                        </tr>
+
+
+                                        <tr>
+                                            <td colspan="2">
+                                                <div class="board-box">@Html.Raw(rowItem.CONTENT)</div>
+                                            </td>
+                                        </tr>
+                                    }
+                                }
+                            }
+                            <!--<tr>
+                <td colspan="2" class="clearfix tit_box">
+                    <p class="tit"><span class="type_t">뷴류노출</span>제목 노출</p>
+                    <p class="tbl_detail_span mt_05">
+                        <span class="name">관리자</span>
+                        <span class="date">2022.01.01</span>-->
+                            <!-- <span class="check_01">조회:51</span> -->
+                            <!--</p>
+                    </td>
+                </tr>-->
+                            @*<tr>
+                        <td colspan="2">
+                            <div class="board-box">@Html.Raw()</div>
+                        </td>
+                    </tr>*@
+                        </tbody>
+                    </table>
+                    <div class="mt_40 text_right board_view_btn_box">
+                        <a href="@Url.Action("notice","LogisticsInfo")" class="btn-type-02 px-6 py-2">목록</a>
+                    </div>
+
+                    <div class="border-list-type mt_30">
+                        <ul>
+                            @{
+                                string strPrev = "";
+                                string idPrev = "javascript:void(0)";
+                                string strNext = "";
+                                string idNext = "javascript:void(0)";
+
+                                foreach (var rowItem in Model)
+                                {
+                                    if (@rowItem.FLAG == "PREV")
+                                    {
+                                        strPrev = @rowItem.TITLE;
+                                        if (!string.IsNullOrEmpty(strPrev)) idPrev = "/LogisticsInfo/notice_view?id=" + @rowItem.NOTICE_ID;
+                                    }
+                                    else if (@rowItem.FLAG == "NEXT")
+                                    {
+                                        strNext = @rowItem.TITLE;
+                                        if (!string.IsNullOrEmpty(strNext)) idNext = "/LogisticsInfo/notice_view?id=" + @rowItem.NOTICE_ID;
+                                    }
+                                }
+
+                                if (string.IsNullOrEmpty(strPrev)) { strPrev = "이전글이 없습니다."; }
+                                if (string.IsNullOrEmpty(strNext)) { strNext = "다음글이 없습니다."; }
+
+                                <li>
+                                    <a href="@Html.Raw(idPrev)" title="이전">
+                                        <div class="clearfix">
+                                            <div class="left list-up-bg list-title">이전</div>
+                                            <div class="left w-con">@Html.Raw(strPrev)</div>
+                                        </div>
+                                    </a>
+                                </li>
+                                <li class="border-none">
+                                    <a href="@Html.Raw(idNext)" title="다음">
+                                        <div class="clearfix">
+                                            <div class="left list-down-bg list-title">다음</div>
+                                            <div class="left w-con">@Html.Raw(strNext)</div>
+                                        </div>
+                                    </a>
+                                </li>
+                            }
+                            @*<li>
+                        <a href="/Company/notice_view?id=5" title="이전">
+                            <div class="clearfix">
+                                <div class="left list-up-bg list-title">이전</div>
+                                <div class="left w-con">이전글</div>
+                            </div>
+                        </a>
+                    </li>
+                    <li class="border-none">
+                        <a href="#" title="다음">
+                            <div class="clearfix">
+                                <div class="left list-down-bg list-title">다음</div>
+                                <div class="left w-con">다음 글이 없습니다.</div>
+                            </div>
+                        </a>
+                    </li>*@
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            </div>
+        </section>
+    </main>
+    <!-- E : Main -->
+}
+
+}

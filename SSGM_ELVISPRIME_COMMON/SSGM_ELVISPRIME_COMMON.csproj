@@ -1,0 +1,102 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{52D96949-A18B-44F0-8777-89D47C89616D}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>SSGM_ELVISPRIME_COMMON</RootNamespace>
+    <AssemblyName>SSGM_ELVISPRIME_COMMON</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <Deterministic>true</Deterministic>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+    <Reference Include="YJIT.Utils, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\YJIT.Utils.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Controllers\Con_Admin.cs" />
+    <Compile Include="Controllers\Con_Booking.cs" />
+    <Compile Include="Controllers\Con_File.cs" />
+    <Compile Include="Controllers\Con_LogisticsTools.cs" />
+    <Compile Include="Controllers\Con_Member.cs" />
+    <Compile Include="Controllers\Con_MyMenu.cs" />
+    <Compile Include="Controllers\Con_Popup.cs" />
+    <Compile Include="Controllers\Con_Common.cs" />
+    <Compile Include="Controllers\Con_Main.cs" />
+    <Compile Include="Controllers\Con_SSGM.cs" />
+    <Compile Include="Controllers\Con_Tracking.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Query\Admin\Admin_Query.cs" />
+    <Compile Include="Query\Admin\Member_Query.cs" />
+    <Compile Include="Query\Admin\Notice_Query.cs" />
+    <Compile Include="Query\Admin\Port_Query.cs" />
+    <Compile Include="Query\Booking\Inquiry_Query.cs" />
+    <Compile Include="Query\Booking\Regist_Query.cs" />
+    <Compile Include="Query\Common\Comm_Query.cs" />
+    <Compile Include="Query\File\File_Query.cs" />
+    <Compile Include="Query\LogisticsTools\Surcharge_Query.cs" />
+    <Compile Include="Query\LogisticsTools\Tariff_Query.cs" />
+    <Compile Include="Query\LogisticsTools\Vehicle_Query.cs" />
+    <Compile Include="Query\Main\Main_Query.cs" />
+    <Compile Include="Query\MyMenu\BL_Query.cs" />
+    <Compile Include="Query\MyMenu\BookingList_Query.cs" />
+    <Compile Include="Query\MyMenu\Console_Query.cs" />
+    <Compile Include="Query\MyMenu\Invoice_Query.cs" />
+    <Compile Include="Query\MyMenu\Myboard_Query.cs" />
+    <Compile Include="Query\Popup\Console_Query.cs" />
+    <Compile Include="Query\Popup\FileList_Query.cs" />
+    <Compile Include="Query\Popup\Tracking_Query.cs" />
+    <Compile Include="Query\Schedule\Schedule_Query.cs" />
+    <Compile Include="Query\SSGM\Booking_Query.cs" />
+    <Compile Include="Query\SSGM\Schedule_Query.cs" />
+    <Compile Include="Query\Tracking\Tracking_Query.cs" />
+    <Compile Include="YJIT_Utils\Common.cs" />
+    <Compile Include="YJIT_Utils\Encryption.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Connected Services\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\SSGM_ELVISPRIME_DATA\SSGM_ELVISPRIME_DATA.csproj">
+      <Project>{b0fd8eea-4590-4c98-ba99-134f22c11df8}</Project>
+      <Name>SSGM_ELVISPRIME_DATA</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

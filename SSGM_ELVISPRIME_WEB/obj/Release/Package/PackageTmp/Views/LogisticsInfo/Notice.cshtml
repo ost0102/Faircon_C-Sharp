@@ -1,0 +1,217 @@
+﻿@{
+    ViewBag.Title = "Company";
+    ViewBag.Sub = "Notice";
+
+    Layout = "~/Views/Shared/_SubLayout.cshtml";
+
+    // Main 언어 설정
+    string setLang = "";
+    if (HttpContext.Current.Session["Language"] == null)
+    {
+        if (Request.Params["Language"] == null)
+        {
+            setLang = "KO";
+            HttpContext.Current.Session["Language"] = "KO";
+        }
+        else
+        {
+            setLang = "EN";
+            HttpContext.Current.Session["Language"] = "EN";
+        }
+    }
+    else
+    {
+        if (Request.Params["Language"] == "KO")
+        {
+            setLang = "KO";
+            HttpContext.Current.Session["Language"] = "KO";
+        }
+        else if (Request.Params["Language"] == "EN")
+        {
+            setLang = "EN";
+            HttpContext.Current.Session["Language"] = "EN";
+        }
+        else
+        {
+            setLang = HttpContext.Current.Session["Language"].ToString();
+            HttpContext.Current.Session["Language"] = HttpContext.Current.Session["Language"].ToString();
+        }
+    }
+
+    if (string.IsNullOrEmpty(setLang))
+    {
+        setLang = "KO";
+    }
+
+}
+
+@section Container {
+        <script>
+            $('.lnb > li:nth-child(4)').addClass('on');
+            $('.lnb > li.on .sub_depth li:nth-child(1) a').addClass('on');
+        </script>
+        @Scripts.Render("/Scripts/Notice.js")
+        @Scripts.Render("/Scripts/js/Common/Comm.js")
+        <style>
+            /* 마지막 막대의 색깔만 변경 */
+            .c3-shapes path {
+                fill: #8cc4ff !important;
+                stroke: #8cc4ff !important
+            }
+
+                .c3-shapes path:first-child {
+                    fill: #84e1e6 !important;
+                    stroke: #84e1e6 !important
+                }
+
+                .c3-shapes path:last-child {
+                    fill: #009954 !important;
+                    stroke: #009954 !important
+                }
+
+            .c3-tooltip .c3-tooltip th {
+                background-color: #009954 !important;
+            }
+        </style>
+
+        <!-- E : sub-nav : dropdown -->
+        <!-- S : Main -->
+        <main class="main sub-main" id="contents" style="padding:0;">
+            <section class="section section--bk-sck">
+                <div class="container">
+                    <div class="sub_visual" id="Schedule">
+                        <div class="inner">
+                            <h4 class="subtitle">
+                                <span>
+                                    Start Your Business<br />
+                                    with <strong>FairConline</strong>
+                                </span>
+                            </h4>
+                        </div>
+                    </div>
+                    <div class="sub_cover" id="SubCover">
+                        <div class="fixed_in type2">
+                            <div class="page-title text-left mb-6" style="margin-bottom:0!important;">
+                                <h2 class="page_nm">NOTICE</h2>
+                            </div>
+                            <!-- S : 목록 -->
+                            <div class="search_form" style="padding-top:0; margin-bottom:1.875rem;">
+                                <select id="type" name="type" class="sel">
+                                    <option value="">전체</option>
+                                    <option value="0">공지사항</option>
+                                    <option value="1">스케줄</option>
+                                </select>
+                                <select id="sf1" name="sf1" class="sel">
+                                    <option value="TITLE">제목</option>
+                                    <option value="CONTENT">내용</option>
+                                </select>
+                                <input type="text" id="stx" name="stx" class="int notice_serach_input" placeholder="검색어를 입력하세요.">
+                                <button type="button" class="btn_search notice" id="btn_search"><span>검색</span></button>
+                            </div>
+                            <table class="table_board_for type_d">
+                                <caption>
+                                    <span class="hidden">일반 게시판 입니다.</span>
+                                </caption>
+                                <colgroup>
+                                    <col width="8%" />
+                                    <col width="30%;" />
+                                    <col width="8%;" />
+                                    <col width="8%;" />
+                                    <col width="8%" />
+                                    <col width="8%" />
+                                </colgroup>
+                                <thead>
+                                    <tr>
+                                        <th scope="col">구분</th>
+                                        <th scope="col">제목</th>
+                                        <th scope="col">첨부파일</th>
+                                        <th scope="col">작성자</th>
+                                        <th scope="col">등록일</th>
+                                        <th scope="col">조회</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="board_list">
+                                    <!-- S : 등록된 게시물이 없는 경우 노출 -->
+                                    @*<tr>
+                                        <td class="no_data" colspan="6">등록된 게시물이 없습니다.</td>
+                                    </tr>*@
+                                    <!-- E : 등록된 게시물이 없는 경우 노출 -->                      
+                                    @*<tr class="">
+                                        <td>공지</td>
+                                        <td class="text_left">
+                                            <a href="@Url.Action("notice_view","LogisticsTools")">페어콘 홈페이지 리뉴얼 안내</a>
+                                        </td>
+                                        <td>
+                                            <button type="button" class="file_btn">
+                                                <i class="xi-file-o"></i>
+                                            </button>
+                                        </td>
+                                        <td>관리자</td>
+                                        <td>2023-06-07</td>
+                                        <td>567회</td>
+                                    </tr>
+                                    <tr class="">
+                                        <td>공지</td>
+                                        <td class="text_left">
+                                            <a href="@Url.Action("notice_view","LogisticsTools")">페어콘 홈페이지 리뉴얼 안내</a>
+                                        </td>
+                                        <td>
+                                            <button type="button" class="file_btn">
+                                                <i class="xi-file-o"></i>
+                                            </button>
+                                        </td>
+                                        <td>관리자</td>
+                                        <td>2023-06-07</td>
+                                        <td>567회</td>
+                                    </tr>
+                                    <tr class="">
+                                        <td>공지</td>
+                                        <td class="text_left">
+                                            <a href="@Url.Action("notice_view","LogisticsTools")">페어콘 홈페이지 리뉴얼 안내</a>
+                                        </td>
+                                        <td>
+                                            <button type="button" class="file_btn">
+                                                <i class="xi-file-o"></i>
+                                            </button>
+                                        </td>
+                                        <td>관리자</td>
+                                        <td>2023-06-07</td>
+                                        <td>567회</td>
+                                    </tr>*@
+                                </tbody>
+                            </table>
+                            <!-- S : 목록 -->
+                            <!-- S : 페이징 -->
+                            <div class="paging-area">
+                                @*<ul>
+                                    <li>
+                                        <a href="javascript:;" class="prev-first"><span>맨앞으로</span></a>
+                                    </li>
+                                    <li>
+                                        <a href="javascript:;" class="prev"><span>이전으로</span></a>
+                                    </li>
+                                    <li>
+                                        <a href="javascript:;" class="active">1<span></span></a>
+                                    </li>
+                                    <li>
+                                        <a href="javascript:;">2<span></span></a>
+                                    </li>
+                                    <li>
+                                        <a href="javascript:;">3<span></span></a>
+                                    </li>
+                                    <li>
+                                        <a href="javascript:;" class="next"><span>다음으로</span></a>
+                                    </li>
+                                    <li>
+                                        <a href="javascript:;" class="next-last"><span>맨뒤로</span></a>
+                                    </li>
+                                </ul>*@
+                            </div>
+                            <!-- E : 페이징 -->
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+        <!-- E : Main -->
+}
